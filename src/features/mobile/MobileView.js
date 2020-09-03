@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-	AppName, Restaurant, TitleStrip, titleStripHeight,
-	HeaderStrip, MobileContainer
-} from '../components/ViewComponents'
-import styled from 'styled-components'
+import { Restaurant, TitleStrip, HeaderStrip, MobileContainer } from '../components/ViewComponents'
 
 const MobileView = ({ listView, detailView, apiResults }) => {
 
@@ -12,7 +8,7 @@ const MobileView = ({ listView, detailView, apiResults }) => {
 
 	return (
 		<>
-			<TitleStrip>{AppName}</TitleStrip>
+			<TitleStrip />
 			<MobileContainer>
 				{
 					listView

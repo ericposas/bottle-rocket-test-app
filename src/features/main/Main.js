@@ -3,10 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { getFood, selectAPIresults } from './mainSlice'
 import MobileView from '../mobile/MobileView'
-import {
-	AppName, Restaurant, TitleStrip, titleStripHeight
-} from '../components/ViewComponents'
-import styled from 'styled-components'
+import TabletView from '../tablet/TabletView'
 
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
@@ -28,23 +25,6 @@ const Default = ({ children }) => {
   return isNotMobile ? children : null
 }
 
-const ColumnLeft = styled.div`
-	width: 50vh;
-	position: absolute;
-	top: ${titleStripHeight};
-`
-
-const ColumnRight = styled.div`
-	left: 50%;
-	width: 50vh;
-	position: absolute;
-	top: ${titleStripHeight};
-`
-
-const TabletItem = styled.div`
-	flex-basis: 50%;
-`
-
 const Main = () => {
 
 	const [detailView, setDetailView] = useState(false)
@@ -54,56 +34,20 @@ const Main = () => {
 
 	useEffect(() => {
 		dispatch(getFood())
-	}, [])
+	}, [dispatch])
 
 	return (
 		<div>
 		<Desktop>
-		<div>Desktop or laptop</div>
+			<div>Desktop or laptop</div>
 
 		</Desktop>
 		<Tablet>
-			<>
-				<TitleStrip>{AppName}</TitleStrip>
-				<ColumnLeft>
-				{
-					apiResults
-					.filter((restaurant, i) => i % 2 == 0)
-					.map((restaurant, i) => {
-						let { name, category, backgroundImageURL: bgImg } = restaurant
-						return (
-							<TabletItem key={i}>
-								<Restaurant
-									name={name}
-									bgImg={bgImg}
-									category={category}
-									layout={'tablet'}
-								/>
-							</TabletItem>
-						)
-					})
-				}
-				</ColumnLeft>
-				<ColumnRight>
-				{
-					apiResults
-					.filter((restaurant, i) => i % 2 == 1)
-					.map((restaurant, i) => {
-						let { name, category, backgroundImageURL: bgImg } = restaurant
-						return (
-							<TabletItem key={i}>
-								<Restaurant
-									name={name}
-									bgImg={bgImg}
-									category={category}
-									layout={'tablet'}
-								/>
-							</TabletItem>
-						)
-					})
-				}
-				</ColumnRight>
-			</>
+			<TabletView
+				listView={listView}
+				detailView={detailView}
+				apiResults={apiResults}
+			/>
 		</Tablet>
 		<Mobile>
 			<MobileView

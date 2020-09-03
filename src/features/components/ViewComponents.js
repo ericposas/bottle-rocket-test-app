@@ -2,17 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import './restaurant.module.css'
-
-export const AppName = 'Lunch Tyme'
-
-export const darkGreen = '#34B379'
-
-export const lightGreen = '#43E895'
-
-export const titleStripHeight = '60px'
+import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW } from '../constants/constants'
 
 export const MobileContainer = styled.div`
-	top: ${titleStripHeight};
+	top: ${TITLE_STRIP_HEIGHT};
 	position: absolute;
 `
 
@@ -21,34 +14,38 @@ export const HeaderStrip = styled.div`
 	width: 100vw;
 	height: 60px;
 	font-size: 17px;
-	background-color: ${darkGreen};
+	background-color: ${DARK_GREEN};
 	font-family: Avenir Next Demi Bold, Arial;
 `
 
-export const TitleStrip = styled.div`
+const StyledTitle = styled.div`
 	color: #fff;
 	position: absolute;
-	height: ${titleStripHeight};
+	height: ${TITLE_STRIP_HEIGHT};
 	font-size: 17px;
 	font-weight: bold;
 	line-height: 77px;
 	text-align: center;
-	background-color: ${lightGreen};
+	background-color: ${LIGHT_GREEN};
 	font-family: Avenir Next Demi Bold, Arial;
 	${
 		({ layout }) =>
-			layout === 'tablet'
+			layout === TABLET_VIEW
 			? `width: 50vw`
 			: `width: 100vw`
 	}
 `
+
+export const TitleStrip = () => (
+	<StyledTitle>{APP_NAME}</StyledTitle>
+)
 
 export const RestaurantContainer = styled.div.attrs({ className: 'restaurant' })`
 	display: flex;
 	position: relative;
 	${
 		({ layout }) =>
-			layout === 'tablet'
+			layout === TABLET_VIEW
 			? `width: 50vw`
 			: `width: 100vw`
 	}
@@ -74,7 +71,7 @@ export const RestaurantCategory = styled.div`
 export const RestaurantImage = styled.img`
 	${
 		({ layout }) =>
-			layout === 'tablet'
+			layout === TABLET_VIEW
 			? `width: 50vw`
 			: `width: 100vw`
 	}
@@ -86,14 +83,14 @@ export const RestaurantGradient = styled.img`
 	position: absolute;
 	${
 		({ layout }) =>
-			layout === 'tablet'
+			layout === TABLET_VIEW
 			? `width: 50vw`
 			: `width: 100vw`
 	}
 `
 
 export const Restaurant = ({ name, bgImg, category, layout }) => {
-	if (layout === 'tablet') {
+	if (layout === TABLET_VIEW) {
 		return (
 			<RestaurantContainer layout={layout}>
 				<RestaurantImage layout={layout} src={bgImg} />
