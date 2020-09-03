@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react'
 import {
 	AppName,
-	RestaurantName, RestaurantImage,
-	RestaurantCategory, RestaurantGradient,
-	RestaurantContainer,
+	Restaurant,
 	TitleStrip, HeaderStrip
 } from '../components/ViewComponents'
-import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 
 const MobileView = ({ listView, detailView, apiResults }) => {
 
 	useEffect(() => {
 	}, [listView, detailView, apiResults])
-	
+
 	return (
 		<>
 		<TitleStrip>{AppName}</TitleStrip>
@@ -25,19 +22,18 @@ const MobileView = ({ listView, detailView, apiResults }) => {
 				?
 				<>
 				{
-					apiResults.map((restaurant, i) => (
-						<div
-						key={i}>
-						{
-							<RestaurantContainer>
-							<RestaurantImage src={restaurant.backgroundImageURL} />
-							<RestaurantGradient src={gradient} />
-							<RestaurantName>{restaurant.name}</RestaurantName>
-							<RestaurantCategory>{restaurant.category}</RestaurantCategory>
-							</RestaurantContainer>
-						}
-						</div>
-					))
+					apiResults.map((restaurant, i) => {
+						let { name, backgroundImageURL: bgImg, category } = restaurant
+						return (
+							<div key={i}>
+								<Restaurant
+									name={name}
+									bgImg={bgImg}
+									category={category}
+								/>
+							</div>
+						)
+					})
 				}
 				</>
 				: null
