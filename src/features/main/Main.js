@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive'
 import styled from 'styled-components'
 import { getFood, selectAPIresults } from './mainSlice'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
-// import Image from 'react-bootstrap/Image'
 
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
