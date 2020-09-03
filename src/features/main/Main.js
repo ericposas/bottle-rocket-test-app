@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive'
 import { getFood, selectAPIresults } from './mainSlice'
 import MobileView from '../mobile/MobileView'
 import {
-	AppName, Restaurant
+	AppName, Restaurant, TitleStrip, titleStripHeight
 } from '../components/ViewComponents'
 import styled from 'styled-components'
 
@@ -30,13 +30,15 @@ const Default = ({ children }) => {
 
 const ColumnLeft = styled.div`
 	width: 50vh;
+	position: absolute;
+	top: ${titleStripHeight};
 `
 
 const ColumnRight = styled.div`
-	top: 0;
 	left: 50%;
 	width: 50vh;
 	position: absolute;
+	top: ${titleStripHeight};
 `
 
 const TabletItem = styled.div`
@@ -62,6 +64,7 @@ const Main = () => {
 		</Desktop>
 		<Tablet>
 			<>
+				<TitleStrip>{AppName}</TitleStrip>
 				<ColumnLeft>
 				{
 					apiResults

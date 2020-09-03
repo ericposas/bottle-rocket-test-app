@@ -1,12 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
+import './restaurant.module.css'
 
 export const AppName = 'Lunch Tyme'
 
 export const darkGreen = '#34B379'
 
 export const lightGreen = '#43E895'
+
+export const titleStripHeight = '60px'
+
+export const MobileContainer = styled.div`
+	top: ${titleStripHeight};
+	position: absolute;
+`
 
 export const HeaderStrip = styled.div`
 	color: #fff;
@@ -17,7 +25,25 @@ export const HeaderStrip = styled.div`
 	font-family: Avenir Next Demi Bold, Arial;
 `
 
-export const RestaurantContainer = styled.div`
+export const TitleStrip = styled.div`
+	color: #fff;
+	position: absolute;
+	height: ${titleStripHeight};
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 77px;
+	text-align: center;
+	background-color: ${lightGreen};
+	font-family: Avenir Next Demi Bold, Arial;
+	${
+		({ layout }) =>
+			layout === 'tablet'
+			? `width: 50vw`
+			: `width: 100vw`
+	}
+`
+
+export const RestaurantContainer = styled.div.attrs({ className: 'restaurant' })`
 	display: flex;
 	position: relative;
 	${
@@ -43,23 +69,6 @@ export const RestaurantCategory = styled.div`
 	bottom: 6px;
 	font-size: 12px;
 	position: absolute;
-`
-
-export const TitleStrip = styled.div`
-	color: #fff;
-	height: 60px;
-	font-size: 17px;
-	font-weight: bold;
-	line-height: 77px;
-	text-align: center;
-	background-color: ${lightGreen};
-	font-family: Avenir Next Demi Bold, Arial;
-	${
-		({ layout }) =>
-			layout === 'tablet'
-			? `width: 50vw`
-			: `width: 100vw`
-	}
 `
 
 export const RestaurantImage = styled.img`
