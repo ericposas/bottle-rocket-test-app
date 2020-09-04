@@ -2,9 +2,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { getFood, selectAPIresults } from './mainSlice'
-import MobileView from '../mobile/MobileView'
-import TabletView from '../tablet/TabletView'
-import DesktopView from '../desktop/DesktopView'
+// import MobileView from '../mobile/MobileView'
+// import TabletView from '../tablet/TabletView'
+// import DesktopView from '../desktop/DesktopView'
+import { DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW} from '../constants/constants'
+import View from '../desktop/View'
 
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
@@ -39,20 +41,20 @@ const Main = () => {
 	return (
 		<>
 			<Desktop>
-				<DesktopView
-					view={view}
+				<View
+					layout={DESKTOP_VIEW}
 					apiResults={apiResults}
 				/>
 			</Desktop>
 			<Tablet>
-				<TabletView
-					view={view}
+				<View
+					layout={TABLET_VIEW}
 					apiResults={apiResults}
 				/>
 			</Tablet>
 			<Mobile>
-				<MobileView
-					view={view}
+				<View
+					layout={MOBILE_VIEW}
 					apiResults={apiResults}
 				/>
 			</Mobile>

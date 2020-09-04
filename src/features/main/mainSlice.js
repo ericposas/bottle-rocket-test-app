@@ -8,16 +8,18 @@ export const mainSlice = createSlice({
   initialState: {
 		apiResults: [],
 		view: LIST_VIEW,
+		layout: null,
 		currentlySelectedRestaurant: null
   },
   reducers: {
     setAPIresults: (state, action) => { state.apiResults = action.payload },
 		setViewType: (state, action) => { state.view = action.payload },
+		setLayout: (state, action) => { state.layout = action.payload },
 		setCurrentlySelectedRestaurant: (state, action) => { state.currentlySelectedRestaurant = action.payload }
   },
 });
 
-export const { setAPIresults, setViewType, setCurrentlySelectedRestaurant } = mainSlice.actions
+export const { setAPIresults, setViewType, setLayout, setCurrentlySelectedRestaurant } = mainSlice.actions
 
 export const getFood = () => dispatch => {
 	axios
