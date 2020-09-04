@@ -12,7 +12,7 @@ export const MobileContainer = styled.div`
 	position: absolute;
 `
 
-export const HeaderStrip = styled.div`
+export const StyledHeaderStrip = styled.div`
 	color: #fff;
 	width: 100vw;
 	height: 60px;
@@ -20,6 +20,14 @@ export const HeaderStrip = styled.div`
 	background-color: ${DARK_GREEN};
 	font-family: Avenir Next Demi Bold, Arial;
 `
+
+export const HeaderStrip = ({ children }) => (
+	<StyledHeaderStrip>
+		<div style={{ padding: '8px 0 0 0', margin: '0 0 0 12px' }}>
+			{children}
+		</div>
+	</StyledHeaderStrip>
+)
 
 const StyledTitle = styled.div`
 	color: #fff;
@@ -39,11 +47,10 @@ const StyledTitle = styled.div`
 	}
 `
 
-const MapIcon = styled.img.attrs({ src: mapIcon })`
-	top: 12px;
+export const MapIcon = styled.img.attrs({ src: mapIcon })`
+	top: 8px;
 	right: 12px;
-	width: 40px;
-	height: 40px;
+	width: 44px;
 	position: absolute;
 `
 
@@ -62,7 +69,6 @@ export const TitleStrip = ({ displayBackArrow }) => {
 			<>
 				<div style={{ top: 0, position: 'absolute' }}>
 					<StyledTitle>{APP_NAME}</StyledTitle>
-					<MapIcon />
 					{ displayBackArrow ? <BackArrow onClick={handleBackArrow} /> : null }
 				</div>
 			</>
@@ -118,6 +124,100 @@ export const RestaurantGradient = styled.img.attrs({ draggable: false })`
 			: `width: 100vw`
 	}
 `
+
+export const DetailViewContainer = styled.div`
+	top: ${TITLE_STRIP_HEIGHT};
+	background-color: #fff;
+	overflow: hidden;
+	position: fixed;
+`
+
+export const DetailBG = styled.div`
+	background-color: #fff;
+	overflow: hidden;
+	height: 100vh;
+`
+
+const Phone = styled.div`
+	margin: 26px 0 26px 12px;
+`
+
+const Address = styled.div`
+	margin: 16px 0 0 12px;
+`
+
+const Twitter = styled.div`
+	margin: 26px 0 0 12px;
+`
+
+const BoldName = styled.div`
+	font-weight: bold;
+	font-size: 20px;
+`
+
+const HeaderStripWithDetails = ({ currentRestaurant }) => (
+	<HeaderStrip>
+		<BoldName>
+			{ currentRestaurant.name }
+		</BoldName>
+		{ currentRestaurant.category }
+	</HeaderStrip>
+)
+
+const ContactInfo = ({ currentRestaurant }) => (
+	<DetailBG>
+		<div>
+			<Address>
+				{
+					currentRestaurant.location.address
+				}
+				<br/>
+				{
+					`
+					${currentRestaurant.location.city},
+					${currentRestaurant.location.state}
+					${currentRestaurant.location.postalCode ? currentRestaurant.location.postalCode : ''}
+					`
+				}
+			</Address>
+			<Phone>
+				{
+					currentRestaurant && currentRestaurant.contact && currentRestaurant.contact.formattedPhone
+					? currentRestaurant.contact.formattedPhone
+					: 'No phone available'
+				}
+			</Phone>
+			<Twitter>
+				{
+					currentRestaurant && currentRestaurant.contact && currentRestaurant.contact.twitter
+					? '@' + currentRestaurant.contact.twitter
+					: 'No twitter handle available'
+				}
+			</Twitter>
+		</div>
+	</DetailBG>
+)
+
+export const DetailView = ({ currentRestaurant }) => (
+	<DetailViewContainer>
+		{/* MAP PLACEHOLDER */}
+		<div style={{ margin: 0 }}>
+			<div
+				style={{
+					margin: 0,
+					width: '100vw',
+					height: '400px',
+					backgroundColor: 'lightblue',
+				}}>
+			</div>
+		</div>
+		{/* MAP PLACEHOLDER */}
+		<HeaderStripWithDetails currentRestaurant={currentRestaurant} />
+		<>
+			<ContactInfo currentRestaurant={currentRestaurant} />
+		</>
+	</DetailViewContainer>
+)
 
 export const Restaurant = ({ restaurant, layout }) => {
 

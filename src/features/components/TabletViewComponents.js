@@ -3,7 +3,7 @@ import { TITLE_STRIP_HEIGHT, TABLET_VIEW } from '../constants/constants'
 import { Restaurant } from '../components/ViewComponents'
 import styled from 'styled-components'
 
-export const renderColumns = apiResults => (
+export const ColumnView = ({ apiResults }) => (
 	<>
 		<ColumnLeft>
 			{
@@ -54,18 +54,9 @@ export const ColumnRight = styled.div`
 	height: 0px;
 `
 
-export const DetailViewContainer = styled.div`
-	top: ${TITLE_STRIP_HEIGHT};
-`
-
-export const DetailBG = styled.div`
-	background-color: #fff;
-	height: 100%;
-`
-
 export const TabletContainer = styled.div`
-	overflow-y: scroll;
 	height: 100vh;
+	overflow-y: scroll;
 `
 
 export const Row = styled.div`

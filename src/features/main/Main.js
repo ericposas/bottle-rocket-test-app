@@ -2,8 +2,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { getFood, selectAPIresults } from './mainSlice'
-// import { TitleStrip } from '../components/ViewComponents'
-// import { DETAIL_VIEW } from '../constants/constants'
 import MobileView from '../mobile/MobileView'
 import TabletView from '../tablet/TabletView'
 
@@ -39,7 +37,6 @@ const Main = () => {
 
 	return (
 		<>
-			{/*<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />*/}
 			<Desktop>
 				<TabletView
 					view={view}
