@@ -8,8 +8,9 @@ import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
 import styled from 'styled-components'
 
 export const MobileContainer = styled.div`
-	top: ${TITLE_STRIP_HEIGHT};
-	position: absolute;
+	margin-top: ${TITLE_STRIP_HEIGHT};
+	height: 100vh;
+	overflow-y: scroll;
 `
 
 export const StyledHeaderStrip = styled.div`

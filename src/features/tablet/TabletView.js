@@ -1,14 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setViewType } from '../main/mainSlice'
-import { Restaurant, TitleStrip, HeaderStrip, MapIcon, ContactInfo, DetailViewContainer, DetailBG, HeaderStripWithDetails, DetailView } from '../components/ViewComponents'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { MapIcon, DetailView, TitleStrip } from '../components/ViewComponents'
 import { TabletContainer, ColumnView } from '../components/TabletViewComponents'
-import { TITLE_STRIP_HEIGHT, TABLET_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
-import styled from 'styled-components'
+import { DETAIL_VIEW } from '../constants/constants'
 
 const TabletView = ({ view, apiResults }) => {
-
-	const dispatch = useDispatch()
 
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 

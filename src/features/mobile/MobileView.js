@@ -1,49 +1,38 @@
 import React, { useEffect } from 'react'
-import { Restaurant, TitleStrip, HeaderStrip, MobileContainer } from '../components/ViewComponents'
+import { useSelector } from 'react-redux'
+import { Restaurant, TitleStrip, MobileContainer, MapIcon, DetailView } from '../components/ViewComponents'
 import { MOBILE_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 
 const MobileView = ({ view, apiResults }) => {
 
-	useEffect(() => {
-	}, [view, apiResults])
+	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 
 	return (
 		<>
-			<div style={{ position: 'absolute' }}>
-				<TitleStrip />
-			</div>
-			<MobileContainer>
-				{
-					view === LIST_VIEW
-					?
-						<>
+			{
+				apiResults
+				?
+					<>
+						<MobileContainer>
 							{
-								apiResults
-								?
-									<>
-										{
-											apiResults.map((restaurant, i) => {
-												return (
-													<Restaurant
-														key={i}
-														restaurant={restaurant}
-														layout={MOBILE_VIEW}
-													/>
-												)
-											})
-										}
-									</>
-								: null
+								apiResults.map((restaurant, i) => (
+									<Restaurant
+										key={i}
+										restaurant={restaurant}
+										layout={MOBILE_VIEW}
+										/>
+								))
 							}
-						</>
-					: null
-				}
-				{
-					view === DETAIL_VIEW
-					? <HeaderStrip/>
-					: null
-				}
-			</MobileContainer>
+							{
+								currentRestaurant && view === DETAIL_VIEW
+								? <DetailView currentRestaurant={currentRestaurant} /> : null
+							}
+						</MobileContainer>
+						<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />
+						{ view === DETAIL_VIEW ? <MapIcon /> : null }
+					</>
+				: null
+			}
 		</>
 	)
 }
