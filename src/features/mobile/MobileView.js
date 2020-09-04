@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react'
 import { Restaurant, TitleStrip, HeaderStrip, MobileContainer } from '../components/ViewComponents'
+import { MOBILE_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 
-const MobileView = ({ listView, detailView, apiResults }) => {
+const MobileView = ({ view, apiResults }) => {
 
 	useEffect(() => {
-	}, [listView, detailView, apiResults])
+	}, [view, apiResults])
 
 	return (
 		<>
 			<TitleStrip />
 			<MobileContainer>
 				{
-					listView
+					view === LIST_VIEW
 					?
 						<>
 							{
@@ -27,6 +28,7 @@ const MobileView = ({ listView, detailView, apiResults }) => {
 														name={name}
 														bgImg={bgImg}
 														category={category}
+														layout={MOBILE_VIEW}
 														/>
 												)
 											})
@@ -38,7 +40,7 @@ const MobileView = ({ listView, detailView, apiResults }) => {
 					: null
 				}
 				{
-					detailView
+					view === DETAIL_VIEW
 					? <HeaderStrip/>
 					: null
 				}

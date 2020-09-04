@@ -1,20 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import axios from 'axios'
 import { url } from '../../api/url'
 
 export const mainSlice = createSlice({
   name: 'main',
   initialState: {
-		apiResults: []
+		apiResults: [],
+		view: LIST_VIEW,
+		currentlySelectedRestaurant: null
   },
   reducers: {
-    setAPIresults: (state, action) => {
-      state.apiResults = action.payload
-    },
+    setAPIresults: (state, action) => { state.apiResults = action.payload },
+		setViewType: (state, action) => { state.view = action.payload },
+		setCurrentlySelectedRestaurant: (state, action) => { state.currentlySelectedRestaurant = action.payload }
   },
 });
 
-export const { setAPIresults } = mainSlice.actions
+export const { setAPIresults, setViewType, setCurrentlySelectedRestaurant } = mainSlice.actions
 
 export const getFood = () => dispatch => {
 	axios

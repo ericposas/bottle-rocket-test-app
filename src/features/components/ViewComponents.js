@@ -1,8 +1,10 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setViewType, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import styled from 'styled-components'
+import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
-import './restaurant.module.css'
-import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW } from '../constants/constants'
+import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
 
 export const MobileContainer = styled.div`
 	top: ${TITLE_STRIP_HEIGHT};
@@ -36,12 +38,24 @@ const StyledTitle = styled.div`
 	}
 `
 
+const MapIcon = styled.img.attrs({ src: mapIcon })`
+	top: 12px;
+	right: 12px;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+`
+
 export const TitleStrip = () => (
-	<StyledTitle>{APP_NAME}</StyledTitle>
+	<>
+		<StyledTitle>{APP_NAME}</StyledTitle>
+		<MapIcon />
+	</>
 )
 
 export const RestaurantContainer = styled.div.attrs({ className: 'restaurant' })`
 	display: flex;
+	user-select: none;
 	position: relative;
 	${
 		({ layout }) =>
@@ -77,7 +91,7 @@ export const RestaurantImage = styled.img`
 	}
 `
 
-export const RestaurantGradient = styled.img`
+export const RestaurantGradient = styled.img.attrs({ draggable: false })`
 	bottom: 0;
 	height: 100%;
 	position: absolute;
@@ -89,23 +103,24 @@ export const RestaurantGradient = styled.img`
 	}
 `
 
-export const Restaurant = ({ name, bgImg, category, layout }) => {
-	if (layout === TABLET_VIEW) {
-		return (
-			<RestaurantContainer layout={layout}>
-				<RestaurantImage layout={layout} src={bgImg} />
-				<RestaurantGradient layout={layout} src={gradient} />
-				<RestaurantName>{name}</RestaurantName>
-				<RestaurantCategory>{category}</RestaurantCategory>
-			</RestaurantContainer>
-		)
+export const Restaurant = ({ restaurant, layout }) => {
+
+	const dispatch = useDispatch()
+
+	const handleSelectItem = e => {
+		dispatch(setCurrentlySelectedRestaurant(restaurant))
+		dispatch(setViewType(DETAIL_VIEW))
 	}
+
 	return (
-		<RestaurantContainer>
-			<RestaurantImage src={bgImg} />
-			<RestaurantGradient src={gradient} />
-			<RestaurantName>{name}</RestaurantName>
-			<RestaurantCategory>{category}</RestaurantCategory>
+		<RestaurantContainer
+			onClick={handleSelectItem}
+			layout={layout}
+			>
+			<RestaurantImage layout={layout} src={restaurant.backgroundImageURL} />
+			<RestaurantGradient layout={layout} src={gradient} />
+			<RestaurantName>{restaurant.name}</RestaurantName>
+			<RestaurantCategory>{restaurant.category}</RestaurantCategory>
 		</RestaurantContainer>
 	)
 }

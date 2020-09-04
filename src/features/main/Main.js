@@ -27,10 +27,9 @@ const Default = ({ children }) => {
 
 const Main = () => {
 
-	const [detailView, setDetailView] = useState(false)
-	const [listView, setListView] = useState(true)
 	const dispatch = useDispatch()
 	const apiResults = useSelector(selectAPIresults)
+	const viewType = useSelector(state => state.main.view)
 
 	useEffect(() => {
 		dispatch(getFood())
@@ -39,27 +38,33 @@ const Main = () => {
 	return (
 		<div>
 		<Desktop>
-			<div>Desktop or laptop</div>
-
+			<TabletView
+				view={viewType}
+				apiResults={apiResults}
+			/>
 		</Desktop>
 		<Tablet>
 			<TabletView
-				listView={listView}
-				detailView={detailView}
+				view={viewType}
 				apiResults={apiResults}
 			/>
 		</Tablet>
 		<Mobile>
 			<MobileView
-				listView={listView}
-				detailView={detailView}
+				view={viewType}
 				apiResults={apiResults}
 			/>
 		</Mobile>
-		<Default>
-		<div>Not mobile (desktop or laptop or tablet)</div>
-
-		</Default>
+		{
+			/*
+			<Default>
+			<TabletView
+				view={viewType}
+				apiResults={apiResults}
+			/>
+			</Default>
+			*/
+		}
 		</div>
 	)
 
