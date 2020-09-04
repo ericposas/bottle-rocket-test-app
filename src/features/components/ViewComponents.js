@@ -1,11 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setViewType, setCurrentlySelectedRestaurant } from '../main/mainSlice'
-import styled from 'styled-components'
 import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
+import styled from 'styled-components'
 
 export const MobileContainer = styled.div`
 	top: ${TITLE_STRIP_HEIGHT};
