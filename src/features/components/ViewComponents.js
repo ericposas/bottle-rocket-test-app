@@ -1,17 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setViewType, setCurrentlySelectedRestaurant } from '../main/mainSlice'
-import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
+import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, DESKTOP_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
 import styled from 'styled-components'
-
-export const MobileContainer = styled.div`
-	margin-top: ${TITLE_STRIP_HEIGHT};
-	height: 100vh;
-	overflow-y: scroll;
-`
 
 export const StyledHeaderStrip = styled.div`
 	color: #fff;
@@ -30,6 +24,15 @@ export const HeaderStrip = ({ children }) => (
 	</StyledHeaderStrip>
 )
 
+const checkLayout = ({ layout }) => (
+	layout === TABLET_VIEW
+	? `width: 50vw`
+	:
+		layout === DESKTOP_VIEW
+		? `width: 35vw`
+		: `width: 100vw`
+)
+
 const StyledTitle = styled.div`
 	color: #fff;
 	position: absolute;
@@ -40,12 +43,7 @@ const StyledTitle = styled.div`
 	text-align: center;
 	background-color: ${LIGHT_GREEN};
 	font-family: Avenir Next Demi Bold, Arial;
-	${
-		({ layout }) =>
-			layout === TABLET_VIEW
-			? `width: 50vw`
-			: `width: 100vw`
-	}
+	${checkLayout}
 `
 
 export const MapIcon = styled.img.attrs({ src: mapIcon })`
@@ -80,12 +78,7 @@ export const RestaurantContainer = styled.div.attrs({ className: 'restaurant' })
 	display: flex;
 	user-select: none;
 	position: relative;
-	${
-		({ layout }) =>
-			layout === TABLET_VIEW
-			? `width: 50vw`
-			: `width: 100vw`
-	}
+	${checkLayout}
 `
 
 export const RestaurantName = styled.div`
@@ -106,24 +99,14 @@ export const RestaurantCategory = styled.div`
 `
 
 export const RestaurantImage = styled.img`
-	${
-		({ layout }) =>
-			layout === TABLET_VIEW
-			? `width: 50vw`
-			: `width: 100vw`
-	}
+	${checkLayout}
 `
 
 export const RestaurantGradient = styled.img.attrs({ draggable: false })`
 	bottom: 0;
 	height: 100%;
 	position: absolute;
-	${
-		({ layout }) =>
-			layout === TABLET_VIEW
-			? `width: 50vw`
-			: `width: 100vw`
-	}
+	${checkLayout}
 `
 
 export const DetailViewContainer = styled.div`

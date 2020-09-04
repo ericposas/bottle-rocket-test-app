@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive'
 import { getFood, selectAPIresults } from './mainSlice'
 import MobileView from '../mobile/MobileView'
 import TabletView from '../tablet/TabletView'
+import DesktopView from '../desktop/DesktopView'
 
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
@@ -38,7 +39,7 @@ const Main = () => {
 	return (
 		<>
 			<Desktop>
-				<TabletView
+				<DesktopView
 					view={view}
 					apiResults={apiResults}
 				/>

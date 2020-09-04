@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Restaurant, TitleStrip, MobileContainer, MapIcon, DetailView } from '../components/ViewComponents'
-import { MOBILE_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
+import { Restaurant, TitleStrip, MapIcon, DetailView } from '../components/ViewComponents'
+import { MOBILE_VIEW, LIST_VIEW, DETAIL_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
+import styled from 'styled-components'
+
+const MobileContainer = styled.div`
+	margin-top: ${TITLE_STRIP_HEIGHT};
+	height: 100vh;
+	overflow-y: scroll;
+`
 
 const MobileView = ({ view, apiResults }) => {
 
