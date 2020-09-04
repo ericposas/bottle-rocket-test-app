@@ -14,18 +14,22 @@ const TabletView = ({ view, apiResults }) => {
 
 	return (
 		<>
-			<TabletContainer>
-				{
-					apiResults
-					?	<ColumnView apiResults={apiResults} /> : null
-				}
-				{
-					currentRestaurant && view === DETAIL_VIEW
-					? <DetailView currentRestaurant={currentRestaurant} /> : null
-				}
-			</TabletContainer>
-			<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />
-			{ view === DETAIL_VIEW ? <MapIcon /> : null }
+			{
+				apiResults
+				?
+					<>
+						<TabletContainer>
+							<ColumnView apiResults={apiResults} />
+							{
+								currentRestaurant && view === DETAIL_VIEW
+								? <DetailView currentRestaurant={currentRestaurant} /> : null
+							}
+						</TabletContainer>
+						<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />
+						{ view === DETAIL_VIEW ? <MapIcon /> : null }
+					</>
+				: null
+			}
 		</>
 	)
 }
