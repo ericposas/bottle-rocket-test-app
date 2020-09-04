@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
+import { LIST_VIEW } from '../constants/constants'
 import axios from 'axios'
 import { url } from '../../api/url'
 
@@ -28,12 +28,6 @@ export const getFood = () => dispatch => {
 		let { data: { restaurants } } = result
 		dispatch(setAPIresults(restaurants))
 	})
-
-  // setTimeout(() => {
-  //   dispatch(incrementByAmount(amount))
-  // }, 1000)
 }
-
-export const selectAPIresults = state => state.main.apiResults
 
 export default mainSlice.reducer

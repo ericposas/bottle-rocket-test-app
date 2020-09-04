@@ -1,24 +1,11 @@
 import React, { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { MapIcon, DetailView, TitleStrip, Restaurant } from '../components/ViewComponents'
-import { TabletContainer, ColumnView } from '../components/TabletViewComponents'
-import { DETAIL_VIEW, TITLE_STRIP_HEIGHT, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW } from '../constants/constants'
-import { Container, Col, Row, setConfiguration } from 'react-grid-system'
+import { MapIcon, DetailView, TitleStrip, Restaurant, Margin, ViewContainer } from '../components/ViewComponents'
+import { DETAIL_VIEW, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW } from '../constants/constants'
+import { Col, Row, setConfiguration } from 'react-grid-system'
 import { setLayout } from '../main/mainSlice'
-import styled from 'styled-components'
 
 setConfiguration({ gutterWidth: 0 })
-
-const Margin = styled.div`
-	width: 100vw;
-	height: ${TITLE_STRIP_HEIGHT};
-`
-
-const DesktopContainer = styled.div`
-	overflow-x: hidden;
-	overflow-y: scroll;
-	height: 100vh;
-`
 
 const View = ({ apiResults, layout }) => {
 
@@ -40,7 +27,7 @@ const View = ({ apiResults, layout }) => {
 				apiResults
 				?
 					<>
-						<DesktopContainer>
+						<ViewContainer>
 								<Margin />
 								<Row>
 								{
@@ -62,7 +49,7 @@ const View = ({ apiResults, layout }) => {
 									})
 								}
 								</Row>
-							</DesktopContainer>
+							</ViewContainer>
 							{
 								currentRestaurant && view === DETAIL_VIEW
 								? <DetailView currentRestaurant={currentRestaurant} /> : null

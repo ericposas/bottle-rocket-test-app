@@ -1,11 +1,22 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setViewType, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, DESKTOP_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
 import styled from 'styled-components'
+
+export const Margin = styled.div`
+	width: 100vw;
+	height: ${TITLE_STRIP_HEIGHT};
+`
+
+export const ViewContainer = styled.div`
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 100vh;
+`
 
 export const StyledHeaderStrip = styled.div`
 	color: #fff;
