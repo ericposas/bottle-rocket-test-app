@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { getFood, selectAPIresults } from './mainSlice'
+// import { TitleStrip } from '../components/ViewComponents'
+// import { DETAIL_VIEW } from '../constants/constants'
 import MobileView from '../mobile/MobileView'
 import TabletView from '../tablet/TabletView'
 
@@ -29,43 +31,44 @@ const Main = () => {
 
 	const dispatch = useDispatch()
 	const apiResults = useSelector(selectAPIresults)
-	const viewType = useSelector(state => state.main.view)
+	const view = useSelector(state => state.main.view)
 
 	useEffect(() => {
 		dispatch(getFood())
 	}, [dispatch])
 
 	return (
-		<div>
-		<Desktop>
-			<TabletView
+		<>
+			{/*<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />*/}
+			<Desktop>
+				<TabletView
+					view={view}
+					apiResults={apiResults}
+				/>
+			</Desktop>
+			<Tablet>
+				<TabletView
+					view={view}
+					apiResults={apiResults}
+				/>
+			</Tablet>
+			<Mobile>
+				<MobileView
+					view={view}
+					apiResults={apiResults}
+				/>
+			</Mobile>
+			{
+				/*
+				<Default>
+				<TabletView
 				view={viewType}
 				apiResults={apiResults}
-			/>
-		</Desktop>
-		<Tablet>
-			<TabletView
-				view={viewType}
-				apiResults={apiResults}
-			/>
-		</Tablet>
-		<Mobile>
-			<MobileView
-				view={viewType}
-				apiResults={apiResults}
-			/>
-		</Mobile>
-		{
-			/*
-			<Default>
-			<TabletView
-				view={viewType}
-				apiResults={apiResults}
-			/>
-			</Default>
-			*/
-		}
-		</div>
+				/>
+				</Default>
+				*/
+			}
+		</>
 	)
 
 }

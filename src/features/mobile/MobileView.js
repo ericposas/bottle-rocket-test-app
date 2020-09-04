@@ -9,7 +9,9 @@ const MobileView = ({ view, apiResults }) => {
 
 	return (
 		<>
-			<TitleStrip />
+			<div style={{ position: 'absolute' }}>
+				<TitleStrip />
+			</div>
 			<MobileContainer>
 				{
 					view === LIST_VIEW
@@ -21,15 +23,12 @@ const MobileView = ({ view, apiResults }) => {
 									<>
 										{
 											apiResults.map((restaurant, i) => {
-												let { name, backgroundImageURL: bgImg, category } = restaurant
 												return (
 													<Restaurant
 														key={i}
-														name={name}
-														bgImg={bgImg}
-														category={category}
+														restaurant={restaurant}
 														layout={MOBILE_VIEW}
-														/>
+													/>
 												)
 											})
 										}

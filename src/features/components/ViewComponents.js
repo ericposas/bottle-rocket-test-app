@@ -4,6 +4,7 @@ import { setViewType, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import styled from 'styled-components'
 import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
+import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
 
 export const MobileContainer = styled.div`
@@ -46,12 +47,27 @@ const MapIcon = styled.img.attrs({ src: mapIcon })`
 	position: absolute;
 `
 
-export const TitleStrip = () => (
-	<>
-		<StyledTitle>{APP_NAME}</StyledTitle>
-		<MapIcon />
-	</>
-)
+const BackArrow = styled.img.attrs({ src: backArrowIcon })`
+	top: 10px;
+	left: 12px;
+	width: ${26 * .85}px;
+	height: ${50 * .85}px;
+	position: absolute;
+`
+
+export const TitleStrip = ({ displayBackArrow }) => {
+	const dispatch = useDispatch()
+	const handleBackArrow = () => { dispatch(setViewType(LIST_VIEW)) }
+	return (
+			<>
+				<div style={{ top: 0, position: 'absolute' }}>
+					<StyledTitle>{APP_NAME}</StyledTitle>
+					<MapIcon />
+					{ displayBackArrow ? <BackArrow onClick={handleBackArrow} /> : null }
+				</div>
+			</>
+	)
+}
 
 export const RestaurantContainer = styled.div.attrs({ className: 'restaurant' })`
 	display: flex;
