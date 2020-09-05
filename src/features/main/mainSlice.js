@@ -9,8 +9,8 @@ export const mainSlice = createSlice({
 		apiResults: [],
 		view: LIST_VIEW,
 		layout: null,
+		lastRestaurantViewed: null,
 		currentlySelectedRestaurant: null,
-		lastRestaurantViewed: null
   },
   reducers: {
     setAPIresults: (state, action) => { state.apiResults = action.payload },

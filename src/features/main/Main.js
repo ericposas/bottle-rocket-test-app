@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { getFood } from './mainSlice'
-import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT } from '../constants/constants'
+import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
+import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW } from '../constants/constants'
 import View from '../components/View'
+import { setUpMap } from '../map/setUpMap'
 
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
@@ -24,7 +26,19 @@ const Main = () => {
 
 	const dispatch = useDispatch()
 
+	const view = useSelector(state => state.main.view)
+
 	const apiResults = useSelector(state => state.main.apiResults)
+
+	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
+
+	const lastRestaurantViewed = useSelector(state => state.main.lastRestaurantViewed)
+
+	useEffect(() => {
+		if (view === DETAIL_VIEW) {
+			setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
+		}
+	}, [view, apiResults, dispatch])
 
 	useEffect(() => {
 		dispatch(getFood())
@@ -50,6 +64,18 @@ const Main = () => {
 					apiResults={apiResults}
 				/>
 			</Mobile>
+			{
+				currentRestaurant && view === DETAIL_VIEW
+				?
+					<>
+						<DetailView currentRestaurant={currentRestaurant}>
+							<MapContainer />
+						</DetailView>
+					</>
+				: null
+			}
+			<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />
+			{ view === DETAIL_VIEW ? <MapIcon /> : null }
 		</>
 	)
 
