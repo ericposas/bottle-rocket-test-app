@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { MapIcon, DetailView, TitleStrip, Restaurant, Margin, ViewContainer, MapContainer } from '../components/ViewComponents'
 import { DETAIL_VIEW, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW, MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
 import { Col, Row, setConfiguration } from 'react-grid-system'
-import { setLayout, setLastRestaurantViewed } from '../main/mainSlice'
+import { setLayout, setLastRestaurantViewed, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import { mapboxKey as accessToken } from '../../api/url'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -22,7 +22,7 @@ const View = ({ apiResults, layout }) => {
 
 	const currentLayout = useSelector(state => state.main.layout)
 
-	const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults) => {
+	const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, dispatch) => {
 
 		let { name, location: { lng, lat } } = currentRestaurant
 
@@ -59,10 +59,20 @@ const View = ({ apiResults, layout }) => {
 				.setHTML(`<div class='mapbox-popup'>${_name}</div>`)
 				.addTo(map)
 
+				let popupSm = new mapboxgl.Popup({ closeButton: false })
+				.setHTML(`<div class='mapbox-popup-minor'>${_name}</div>`)
+				.addTo(map)
+
 				if (_name !== currentRestaurant.name) {
 					let marker = new mapboxgl.Marker({ color: '#CCCCCC', scale: .75 })
 					.setLngLat([ _lng, _lat ])
 					.addTo(map)
+					.setPopup(popupSm)
+					marker.togglePopup()
+					popupSm.on('open', () => {
+						dispatch(setLastRestaurantViewed(currentRestaurant))
+						dispatch(setCurrentlySelectedRestaurant(restaurant))
+					})
 				} else {
 					let marker = new mapboxgl.Marker({ color: DARK_GREEN, scale: 1.5 })
 					.setLngLat([ _lng, _lat ])
@@ -71,12 +81,12 @@ const View = ({ apiResults, layout }) => {
 				}
 			})
 
-			map.on('click', e => {
-				console.log(e)
+			// map.on('click', e => {
+				// console.log(e)
 				// apiResults.forEach(restaurant => {
 				//
 				// })
-			})
+			// })
 
 			map.flyTo({
 				center: [ lng, lat ],
@@ -89,9 +99,9 @@ const View = ({ apiResults, layout }) => {
 
 	useEffect(() => {
 		if (view === DETAIL_VIEW) {
-			setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults)
+			setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
 		}
-	}, [view, currentRestaurant, apiResults])
+	}, [view, currentRestaurant, apiResults, dispatch])
 
 	useEffect(() => {
 		dispatch(setLayout(layout))
