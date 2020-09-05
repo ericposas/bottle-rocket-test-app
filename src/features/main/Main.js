@@ -47,22 +47,13 @@ const Main = () => {
 	return (
 		<>
 			<Desktop>
-				<View
-					layout={DESKTOP_LAYOUT}
-					apiResults={apiResults}
-				/>
+				<View layout={DESKTOP_LAYOUT} apiResults={apiResults} />
 			</Desktop>
 			<Tablet>
-				<View
-					layout={TABLET_LAYOUT}
-					apiResults={apiResults}
-				/>
+				<View layout={TABLET_LAYOUT} apiResults={apiResults} />
 			</Tablet>
 			<Mobile>
-				<View
-					layout={MOBILE_LAYOUT}
-					apiResults={apiResults}
-				/>
+				<View layout={MOBILE_LAYOUT} apiResults={apiResults} />
 			</Mobile>
 			{
 				currentRestaurant && view === DETAIL_VIEW
