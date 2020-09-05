@@ -193,20 +193,9 @@ const ContactInfo = ({ currentRestaurant }) => (
 	</DetailBG>
 )
 
-export const DetailView = ({ currentRestaurant }) => (
+export const DetailView = ({ currentRestaurant, children }) => (
 	<DetailViewContainer>
-		{/* MAP PLACEHOLDER */}
-		<div style={{ margin: 0 }}>
-			<div
-				style={{
-					margin: 0,
-					width: '100vw',
-					height: '400px',
-					backgroundColor: 'lightblue',
-				}}>
-			</div>
-		</div>
-		{/* MAP PLACEHOLDER */}
+		{children}
 		<HeaderStripWithDetails currentRestaurant={currentRestaurant} />
 		<>
 			<ContactInfo currentRestaurant={currentRestaurant} />

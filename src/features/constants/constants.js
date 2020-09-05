@@ -15,3 +15,11 @@ export const MOBILE_VIEW = 'mobile view'
 export const LIST_VIEW = 'list view'
 
 export const DETAIL_VIEW = 'detail view'
+
+export const MAP_ZOOM_LEVEL = 16
+
+export const MAP_STYLES = {
+	_1: 'mapbox://styles/mapbox/streets-v9',
+	_2: 'mapbox://styles/mapbox/dark-v8',
+	_3: 'https://raw.githubusercontent.com/mapbox/mapbox-gl-styles/master/styles/bright-v9.json'
+}
