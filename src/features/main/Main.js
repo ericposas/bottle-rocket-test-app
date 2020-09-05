@@ -47,8 +47,12 @@ const Main = () => {
 
 	return (
 		<>
-			{
-				(<>
+			<AnimatePresence>
+				<motion.div
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ duration: 1 }}
+				>
 					<Desktop>
 					<View layout={DESKTOP_LAYOUT} apiResults={apiResults} />
 					</Desktop>
@@ -58,8 +62,8 @@ const Main = () => {
 					<Mobile>
 					<View layout={MOBILE_LAYOUT} apiResults={apiResults} />
 					</Mobile>
-				</>)
-			}
+				</motion.div>
+			</AnimatePresence>
 			<AnimatePresence>
 			{
 				currentRestaurant && view === DETAIL_VIEW
