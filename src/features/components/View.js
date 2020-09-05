@@ -27,10 +27,6 @@ const View = ({ apiResults, layout }) => {
 		dispatch(setLayout(layout))
 	}, [layout, dispatch, currentRestaurant])
 
-	useEffect(() => {
-		console.log(mapRef.current)
-	}, [mapRef])
-
 	return (
 		<>
 			{
@@ -66,13 +62,12 @@ const View = ({ apiResults, layout }) => {
 									<>
 										<DetailView currentRestaurant={currentRestaurant}>
 											<Map
-												ref={mapRef}
 												zoom={[ MAP_ZOOM_LEVEL ]}
 												center={[ currentRestaurant.location.lng, currentRestaurant.location.lat ]}
 												style={ 'https://raw.githubusercontent.com/mapbox/mapbox-gl-styles/master/styles/bright-v9.json' }
 												containerStyle={{
 													width: '100vw',
-													height: '500px',
+													height: '400px',
 												}}
 												>
 												<Layer
