@@ -135,7 +135,6 @@ export const RestaurantGradient = styled.img.attrs({ draggable: false })`
 `
 
 export const DetailViewContainer = styled.div`
-	top: ${TITLE_STRIP_HEIGHT};
 	background-color: #fff;
 	overflow: hidden;
 	position: fixed;
