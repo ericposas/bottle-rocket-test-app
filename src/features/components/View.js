@@ -64,29 +64,37 @@ const View = ({ apiResults, layout }) => {
 				.addTo(map)
 
 				if (_name !== currentRestaurant.name) {
-					let marker = new mapboxgl.Marker({ color: '#CCCCCC', scale: .75 })
+					let marker = new mapboxgl.Marker({ color: LIGHT_GREEN, scale: .75 })
 					.setLngLat([ _lng, _lat ])
 					.addTo(map)
 					.setPopup(popupSm)
 					marker.togglePopup()
-					popupSm.on('open', () => {
-						dispatch(setLastRestaurantViewed(currentRestaurant))
-						dispatch(setCurrentlySelectedRestaurant(restaurant))
-					})
 				} else {
-					let marker = new mapboxgl.Marker({ color: DARK_GREEN, scale: 1.5 })
+					let mainMarker = new mapboxgl.Marker({ color: DARK_GREEN, scale: 1.5 })
 					.setLngLat([ _lng, _lat ])
 					.addTo(map)
 					.setPopup(popup)
 				}
-			})
 
-			// map.on('click', e => {
-				// console.log(e)
-				// apiResults.forEach(restaurant => {
-				//
-				// })
-			// })
+				popupSm.on('open', () => {
+					dispatch(setLastRestaurantViewed(currentRestaurant))
+					dispatch(setCurrentlySelectedRestaurant(restaurant))
+					map.flyTo({
+						center: [ restaurant.location.lng, restaurant.location.lat ],
+						zoom: MAP_ZOOM_LEVEL_MAX
+					})
+				})
+				
+				popup.on('open', () => {
+					dispatch(setLastRestaurantViewed(currentRestaurant))
+					dispatch(setCurrentlySelectedRestaurant(restaurant))
+					map.flyTo({
+						center: [ restaurant.location.lng, restaurant.location.lat ],
+						zoom: MAP_ZOOM_LEVEL_MAX
+					})
+				})
+
+			})
 
 			map.flyTo({
 				center: [ lng, lat ],
@@ -101,7 +109,7 @@ const View = ({ apiResults, layout }) => {
 		if (view === DETAIL_VIEW) {
 			setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
 		}
-	}, [view, currentRestaurant, apiResults, dispatch])
+	}, [view, apiResults, dispatch])
 
 	useEffect(() => {
 		dispatch(setLayout(layout))
