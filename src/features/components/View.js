@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { MapIcon, DetailView, TitleStrip, Restaurant, Margin, ViewContainer, MapContainer } from '../components/ViewComponents'
 import { DETAIL_VIEW, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW, MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
 import { Col, Row, setConfiguration } from 'react-grid-system'
-import { setLayout } from '../main/mainSlice'
+import { setLayout, setLastRestaurantViewed } from '../main/mainSlice'
 import { mapboxKey as accessToken } from '../../api/url'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -14,49 +14,74 @@ const View = ({ apiResults, layout }) => {
 
 	const dispatch = useDispatch()
 
+	const lastRestaurantViewed = useSelector(state => state.main.lastRestaurantViewed)
+
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 
 	const view = useSelector(state => state.main.view)
 
 	const currentLayout = useSelector(state => state.main.layout)
 
-	const setUpMap = (currentRestaurant) => {
+	const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults) => {
 
 		let { name, location: { lng, lat } } = currentRestaurant
 
 		mapboxgl.accessToken = accessToken
 
+		console.log(
+			lastRestaurantViewed
+		)
+
 		let map = new mapboxgl.Map({
 			container: 'map',
 			style: MAP_STYLES._4,
-			center: [ lng, lat ],
-			zoom: MAP_ZOOM_LEVEL_MIN
+			center: (
+				lastRestaurantViewed
+				? [ lastRestaurantViewed.location.lng, lastRestaurantViewed.location.lat ]
+				: [ lng, lat ]
+			),
+			zoom: MAP_ZOOM_LEVEL_MAX,
+			minZoom: MAP_ZOOM_LEVEL_MIN,
+			maxZoom: MAP_ZOOM_LEVEL_MAX,
 		})
 
 		map.on('load', () => {
 
-			let popup = new mapboxgl.Popup({
-				closeButton: false
+			apiResults.forEach(restaurant => {
+				let {
+					name: _name,
+					location: {
+						lat: _lat, lng: _lng
+					}
+				} = restaurant
+
+				let popup = new mapboxgl.Popup({ closeButton: false })
+				.setHTML(`<div class='mapbox-popup'>${_name}</div>`)
+				.addTo(map)
+
+				if (_name !== currentRestaurant.name) {
+					let marker = new mapboxgl.Marker({ color: '#CCCCCC', scale: .75 })
+					.setLngLat([ _lng, _lat ])
+					.addTo(map)
+				} else {
+					let marker = new mapboxgl.Marker({ color: DARK_GREEN, scale: 1.5 })
+					.setLngLat([ _lng, _lat ])
+					.addTo(map)
+					.setPopup(popup)
+				}
 			})
-			.setHTML(`
-				<div class='mapbox-popup'>
-					${name}
-				</div>
-			`)
-			.addTo(map);
+
+			map.on('click', e => {
+				console.log(e)
+				// apiResults.forEach(restaurant => {
+				//
+				// })
+			})
 
 			map.flyTo({
 				center: [ lng, lat ],
 				zoom: MAP_ZOOM_LEVEL_MAX
 			})
-
-			let marker = new mapboxgl.Marker({
-				color: DARK_GREEN,
-				scale: 1.5
-			})
-			.setLngLat([ lng, lat ])
-			.addTo(map)
-			.setPopup(popup);
 
 		})
 
@@ -64,9 +89,9 @@ const View = ({ apiResults, layout }) => {
 
 	useEffect(() => {
 		if (view === DETAIL_VIEW) {
-			setUpMap(currentRestaurant)
+			setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults)
 		}
-	}, [view, currentRestaurant])
+	}, [view, currentRestaurant, apiResults])
 
 	useEffect(() => {
 		dispatch(setLayout(layout))

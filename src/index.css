@@ -20,6 +20,12 @@ code {
 
 .mapboxgl-popup-content,
 .mapbox-popup {
+	z-index: 1;
 	color: #34B379;
 	font-weight: bold;
+}
+
+.mapbox-popup-minor {
+	z-index: 0;
+	font-size: 8px;
 }

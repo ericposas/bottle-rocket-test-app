@@ -1,6 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { setViewType, setCurrentlySelectedRestaurant } from '../main/mainSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setViewType, setCurrentlySelectedRestaurant, setLastRestaurantViewed } from '../main/mainSlice'
 import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, DESKTOP_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
@@ -79,7 +79,15 @@ const BackArrow = styled.img.attrs({ src: backArrowIcon })`
 
 export const TitleStrip = ({ displayBackArrow }) => {
 	const dispatch = useDispatch()
-	const handleBackArrow = () => { dispatch(setViewType(LIST_VIEW)) }
+	const state = useSelector(state => state.main)
+	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
+	const handleBackArrow = () => {
+		dispatch(setLastRestaurantViewed(currentRestaurant))
+		dispatch(setViewType(LIST_VIEW))
+		console.log(
+			state
+		)
+	}
 	return (
 			<>
 				<div style={{ top: 0, position: 'absolute' }}>
