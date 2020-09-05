@@ -17,3 +17,9 @@ code {
 	height: 100vh;
 	overflow: hidden;
 }
+
+.mapboxgl-popup-content,
+.mapbox-popup {
+	color: #34B379;
+	font-weight: bold;
+}

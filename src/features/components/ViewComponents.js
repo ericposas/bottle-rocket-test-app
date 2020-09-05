@@ -7,6 +7,11 @@ import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
 import styled from 'styled-components'
 
+export const MapContainer = styled.div.attrs({ id: 'map' })`
+	width: 100vw;
+	height: 400px;
+`
+
 export const Margin = styled.div`
 	width: 100vw;
 	height: ${TITLE_STRIP_HEIGHT};

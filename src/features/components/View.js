@@ -1,15 +1,14 @@
 import React, { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { MapIcon, DetailView, TitleStrip, Restaurant, Margin, ViewContainer } from '../components/ViewComponents'
-import { DETAIL_VIEW, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW, MAP_ZOOM_LEVEL, MAP_STYLES } from '../constants/constants'
+import { MapIcon, DetailView, TitleStrip, Restaurant, Margin, ViewContainer, MapContainer } from '../components/ViewComponents'
+import { DETAIL_VIEW, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW, MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
 import { Col, Row, setConfiguration } from 'react-grid-system'
 import { setLayout } from '../main/mainSlice'
 import { mapboxKey as accessToken } from '../../api/url'
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl'
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 setConfiguration({ gutterWidth: 0 })
-
-const Map = ReactMapboxGl({ accessToken })
 
 const View = ({ apiResults, layout }) => {
 
@@ -21,7 +20,53 @@ const View = ({ apiResults, layout }) => {
 
 	const currentLayout = useSelector(state => state.main.layout)
 
-	const mapRef = React.useRef(null)
+	const setUpMap = (currentRestaurant) => {
+
+		let { name, location: { lng, lat } } = currentRestaurant
+
+		mapboxgl.accessToken = accessToken
+
+		let map = new mapboxgl.Map({
+			container: 'map',
+			style: MAP_STYLES._4,
+			center: [ lng, lat ],
+			zoom: MAP_ZOOM_LEVEL_MIN
+		})
+
+		map.on('load', () => {
+
+			let popup = new mapboxgl.Popup({
+				closeButton: false
+			})
+			.setHTML(`
+				<div class='mapbox-popup'>
+					${name}
+				</div>
+			`)
+			.addTo(map);
+
+			map.flyTo({
+				center: [ lng, lat ],
+				zoom: MAP_ZOOM_LEVEL_MAX
+			})
+
+			let marker = new mapboxgl.Marker({
+				color: DARK_GREEN,
+				scale: 1.5
+			})
+			.setLngLat([ lng, lat ])
+			.addTo(map)
+			.setPopup(popup);
+
+		})
+
+	}
+
+	useEffect(() => {
+		if (view === DETAIL_VIEW) {
+			setUpMap(currentRestaurant)
+		}
+	}, [view, currentRestaurant])
 
 	useEffect(() => {
 		dispatch(setLayout(layout))
@@ -61,26 +106,7 @@ const View = ({ apiResults, layout }) => {
 								?
 									<>
 										<DetailView currentRestaurant={currentRestaurant}>
-											<Map
-												zoom={[ MAP_ZOOM_LEVEL ]}
-												center={[ currentRestaurant.location.lng, currentRestaurant.location.lat ]}
-												style={ 'https://raw.githubusercontent.com/mapbox/mapbox-gl-styles/master/styles/bright-v9.json' }
-												containerStyle={{
-													width: '100vw',
-													height: '400px',
-												}}
-												>
-												<Layer
-													type='symbol'
-													id='marker'
-													layout={{
-														'icon-image': 'star-15',
-														'icon-size': 2.5
-													}}
-													>
-													<Feature coordinates={[ currentRestaurant.location.lng, currentRestaurant.location.lat ]} />
-												</Layer>
-											</Map>
+											<MapContainer />
 										</DetailView>
 									</>
 								: null
