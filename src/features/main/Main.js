@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { getFood } from './mainSlice'
-import { DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW} from '../constants/constants'
+import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT } from '../constants/constants'
 import View from '../components/View'
 
 const Desktop = ({ children }) => {
@@ -23,7 +23,7 @@ const Mobile = ({ children }) => {
 const Main = () => {
 
 	const dispatch = useDispatch()
-	
+
 	const apiResults = useSelector(state => state.main.apiResults)
 
 	useEffect(() => {
@@ -34,19 +34,19 @@ const Main = () => {
 		<>
 			<Desktop>
 				<View
-					layout={DESKTOP_VIEW}
+					layout={DESKTOP_LAYOUT}
 					apiResults={apiResults}
 				/>
 			</Desktop>
 			<Tablet>
 				<View
-					layout={TABLET_VIEW}
+					layout={TABLET_LAYOUT}
 					apiResults={apiResults}
 				/>
 			</Tablet>
 			<Mobile>
 				<View
-					layout={MOBILE_VIEW}
+					layout={MOBILE_LAYOUT}
 					apiResults={apiResults}
 				/>
 			</Mobile>

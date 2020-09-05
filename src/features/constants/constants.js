@@ -6,11 +6,11 @@ export const LIGHT_GREEN = '#43E895'
 
 export const TITLE_STRIP_HEIGHT = '60px'
 
-export const DESKTOP_VIEW = 'desktop view'
+export const DESKTOP_LAYOUT = 'desktop view'
 
-export const TABLET_VIEW = 'tablet view'
+export const TABLET_LAYOUT = 'tablet view'
 
-export const MOBILE_VIEW = 'mobile view'
+export const MOBILE_LAYOUT = 'mobile view'
 
 export const LIST_VIEW = 'list view'
 

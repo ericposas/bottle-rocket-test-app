@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { MapIcon, DetailView, TitleStrip, Restaurant, Margin, ViewContainer, MapContainer } from '../components/ViewComponents'
-import { DETAIL_VIEW, DESKTOP_VIEW, TABLET_VIEW, MOBILE_VIEW, MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
+import { DETAIL_VIEW, DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
 import { Col, Row, setConfiguration } from 'react-grid-system'
 import { setLayout, setLastRestaurantViewed, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import { mapboxKey as accessToken } from '../../api/url'
@@ -65,7 +65,7 @@ const View = ({ apiResults, layout }) => {
 					let popupSm = new mapboxgl.Popup({ closeButton: false })
 					.setHTML(`<div class='mapbox-popup-minor'>${_name}</div>`)
 					.addTo(map)
-					
+
 					if (_name !== selectedRestaurant.name) {
 						let marker = new mapboxgl.Marker({ color: LIGHT_GREEN, scale: .75 })
 						.setLngLat([ _lng, _lat ])
@@ -145,9 +145,9 @@ const View = ({ apiResults, layout }) => {
 								{
 									apiResults.map((restaurant, i) => {
 										let props = {}
-										if (currentLayout === DESKTOP_VIEW) { props.sm = 4 }
-										if (currentLayout === TABLET_VIEW) { props.md = 6 }
-										if (currentLayout === MOBILE_VIEW) { props.lg = 12 }
+										if (currentLayout === DESKTOP_LAYOUT) { props.sm = 4 }
+										if (currentLayout === TABLET_LAYOUT) { props.md = 6 }
+										if (currentLayout === MOBILE_LAYOUT) { props.lg = 12 }
 										return (
 											<Fragment key={i}>
 												<Col { ...props }>

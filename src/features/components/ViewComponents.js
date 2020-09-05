@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setViewType, setCurrentlySelectedRestaurant, setLastRestaurantViewed } from '../main/mainSlice'
-import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT, TABLET_VIEW, DESKTOP_VIEW, LIST_VIEW, DETAIL_VIEW } from '../constants/constants'
+import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT,
+	LIST_VIEW, DETAIL_VIEW, DESKTOP_LAYOUT, TABLET_LAYOUT } from '../constants/constants'
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
@@ -41,10 +42,10 @@ export const HeaderStrip = ({ children }) => (
 )
 
 const checkLayout = ({ layout }) => (
-	layout === TABLET_VIEW
+	layout === TABLET_LAYOUT
 	? `width: 50vw`
 	:
-		layout === DESKTOP_VIEW
+		layout === DESKTOP_LAYOUT
 		? `width: 35vw`
 		: `width: 100vw`
 )
