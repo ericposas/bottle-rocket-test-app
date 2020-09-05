@@ -65,12 +65,7 @@ const View = ({ apiResults, layout }) => {
 					let popupSm = new mapboxgl.Popup({ closeButton: false })
 					.setHTML(`<div class='mapbox-popup-minor'>${_name}</div>`)
 					.addTo(map)
-
-					console.log(
-						// _name,
-						selectedRestaurant.name
-					)
-
+					
 					if (_name !== selectedRestaurant.name) {
 						let marker = new mapboxgl.Marker({ color: LIGHT_GREEN, scale: .75 })
 						.setLngLat([ _lng, _lat ])
@@ -85,8 +80,6 @@ const View = ({ apiResults, layout }) => {
 						.setPopup(popup)
 						markers.push(mainMarker)
 					}
-
-					// map.on('moveend', () => { setMarkers(selectedRestaurant) })
 
 					popupSm.on('open', () => {
 						dispatch(setLastRestaurantViewed(selectedRestaurant))
