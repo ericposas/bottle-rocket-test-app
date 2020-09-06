@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { getFood, setAPIresults, setViewType, setCurrentlySelectedRestaurant, goBackOneLastRestaurant } from './mainSlice'
+import { getFood, setAPIresults, setViewType, setLayout, setCurrentlySelectedRestaurant, goBackOneLastRestaurant } from './mainSlice'
 import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW, LIST_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
 import View from '../components/View'
@@ -11,7 +11,7 @@ import history from 'history/browser'
 
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
-  return isDesktop ? children : null
+	return isDesktop ? children : null
 }
 
 const Tablet = ({ children }) => {
@@ -88,13 +88,13 @@ const Main = () => {
 				transition={{ duration: 1 }}
 				>
 					<Desktop>
-					<View handleMapMove={handleMapMove} layout={DESKTOP_LAYOUT} apiResults={apiResults} />
+						<View handleMapMove={handleMapMove} layout={DESKTOP_LAYOUT} apiResults={apiResults} />
 					</Desktop>
 					<Tablet>
-					<View handleMapMove={handleMapMove} layout={TABLET_LAYOUT} apiResults={apiResults} />
+						<View handleMapMove={handleMapMove} layout={TABLET_LAYOUT} apiResults={apiResults} />
 					</Tablet>
 					<Mobile>
-					<View handleMapMove={handleMapMove} layout={MOBILE_LAYOUT} apiResults={apiResults} />
+						<View handleMapMove={handleMapMove} layout={MOBILE_LAYOUT} apiResults={apiResults} />
 					</Mobile>
 				</motion.div>
 			</AnimatePresence>

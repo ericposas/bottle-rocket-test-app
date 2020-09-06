@@ -1,3 +1,4 @@
+import { batch } from 'react-redux'
 import { restaurantNameToURLPath } from '../utils/Utils'
 import { setLastRestaurantViewed, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import { MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
@@ -11,8 +12,6 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 	let { name, location: { lng, lat } } = currentRestaurant
 
 	mapboxgl.accessToken = accessToken
-
-	console.log(lastRestaurantViewed)
 
 	let map = new mapboxgl.Map({
 		container: 'map',
@@ -61,23 +60,21 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 				markers.push(mainMarker)
 			}
 
-			popupSm.on('open', () => {
-				dispatch(setLastRestaurantViewed(selectedRestaurant))
-				dispatch(setCurrentlySelectedRestaurant(restaurant))
+			function handlePopupClick () {
+				batch(() => {
+					dispatch(setLastRestaurantViewed(selectedRestaurant))
+					dispatch(setCurrentlySelectedRestaurant(restaurant))
+				})
 				removeMarkers()
 				setMarkers(restaurant)
 				fly(restaurant)
 				history.push(`/${restaurantNameToURLPath(restaurant)}`)
-			})
+			}
 
-			popup.on('open', () => {
-				dispatch(setLastRestaurantViewed(selectedRestaurant))
-				dispatch(setCurrentlySelectedRestaurant(restaurant))
-				removeMarkers()
-				setMarkers(restaurant)
-				fly(restaurant)
-				history.push(`/${restaurantNameToURLPath(restaurant)}`)
-			})
+			popupSm.on('open', handlePopupClick)
+
+			popup.on('open', handlePopupClick)
+
 		})
 	}
 

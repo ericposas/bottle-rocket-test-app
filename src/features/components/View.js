@@ -16,9 +16,9 @@ const View = ({ handleMapMove, apiResults, layout }) => {
 
 	const currentLayout = useSelector(state => state.main.layout)
 
-	useEffect(() => {
-		dispatch(setLayout(layout))
-	}, [layout, dispatch, currentRestaurant])
+	// useEffect(() => {
+	// 	dispatch(setLayout(layout))
+	// }, [layout, dispatch, currentRestaurant])
 
 	return (
 		<>
@@ -32,9 +32,9 @@ const View = ({ handleMapMove, apiResults, layout }) => {
 						{
 							apiResults.map((restaurant, i) => {
 								let props = {}
-								if (currentLayout === DESKTOP_LAYOUT) { props.sm = 4 }
-								if (currentLayout === TABLET_LAYOUT) { props.md = 6 }
-								if (currentLayout === MOBILE_LAYOUT) { props.lg = 12 }
+								if (layout === DESKTOP_LAYOUT) { props.sm = 4 }
+								if (layout === TABLET_LAYOUT) { props.md = 6 }
+								if (layout === MOBILE_LAYOUT) { props.lg = 12 }
 								return (
 									<Fragment key={i}>
 										<Col { ...props }>
@@ -50,7 +50,7 @@ const View = ({ handleMapMove, apiResults, layout }) => {
 													<Restaurant
 														handleMapMove={handleMapMove}
 														restaurant={restaurant}
-														layout={currentLayout}
+														layout={layout}
 														/>
 												</motion.div>
 											</AnimatePresence>

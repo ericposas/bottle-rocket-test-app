@@ -1,4 +1,5 @@
 import React from 'react'
+import { batch } from 'react-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { setViewType, setCurrentlySelectedRestaurant, setLastRestaurantViewed } from '../main/mainSlice'
 import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT,
@@ -85,8 +86,10 @@ export const TitleStrip = ({ displayBackArrow }) => {
 	const state = useSelector(state => state.main)
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 	const handleBackArrow = () => {
-		dispatch(setLastRestaurantViewed(currentRestaurant))
-		dispatch(setViewType(LIST_VIEW))
+		batch(() => {
+			dispatch(setLastRestaurantViewed(currentRestaurant))
+			dispatch(setViewType(LIST_VIEW))
+		})
 		history.push('/')
 	}
 	return (
@@ -238,8 +241,10 @@ export const Restaurant = ({ restaurant, layout, handleMapMove }) => {
 
 	const handleSelectItem = e => {
 		handleMapMove(restaurant)
-		dispatch(setCurrentlySelectedRestaurant(restaurant))
-		dispatch(setViewType(DETAIL_VIEW))
+		batch(() => {
+			dispatch(setCurrentlySelectedRestaurant(restaurant))
+			dispatch(setViewType(DETAIL_VIEW))
+		})
 		history.push(`/${restaurantNameToURLPath(restaurant)}`)
 	}
 
