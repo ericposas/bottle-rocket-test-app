@@ -6,7 +6,9 @@ import { APP_NAME, DARK_GREEN, LIGHT_GREEN, TITLE_STRIP_HEIGHT,
 import gradient from '../../TEST_ASSETS/Cuts/cellGradientBackground@2x.png'
 import backArrowIcon from '../../TEST_ASSETS/Cuts/ic_webBack@2x.png'
 import mapIcon from '../../TEST_ASSETS/Cuts/icon_map@2x.png'
+import { restaurantNameToURLPath } from '../utils/Utils'
 import styled from 'styled-components'
+import history from 'history/browser'
 
 export const MapContainer = styled.div.attrs({ id: 'map' })`
 	width: 100vw;
@@ -85,9 +87,7 @@ export const TitleStrip = ({ displayBackArrow }) => {
 	const handleBackArrow = () => {
 		dispatch(setLastRestaurantViewed(currentRestaurant))
 		dispatch(setViewType(LIST_VIEW))
-		console.log(
-			state
-		)
+		history.push('/')
 	}
 	return (
 			<>
@@ -223,6 +223,7 @@ export const Restaurant = ({ restaurant, layout }) => {
 	const handleSelectItem = e => {
 		dispatch(setCurrentlySelectedRestaurant(restaurant))
 		dispatch(setViewType(DETAIL_VIEW))
+		history.push(`/${restaurantNameToURLPath(restaurant)}`)
 	}
 
 	return (

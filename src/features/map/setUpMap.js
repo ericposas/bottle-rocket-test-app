@@ -1,8 +1,10 @@
+import { restaurantNameToURLPath } from '../utils/Utils'
 import { setLastRestaurantViewed, setCurrentlySelectedRestaurant } from '../main/mainSlice'
 import { MAP_ZOOM_LEVEL_MIN, MAP_ZOOM_LEVEL_MAX, MAP_STYLES, LIGHT_GREEN, DARK_GREEN } from '../constants/constants'
 import { mapboxKey as accessToken } from '../../api/url'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import history from 'history/browser'
 
 export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, dispatch) => {
 
@@ -72,6 +74,7 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 						center: [ restaurant.location.lng, restaurant.location.lat ],
 						zoom: MAP_ZOOM_LEVEL_MAX
 					})
+					history.push(`/${restaurantNameToURLPath(restaurant)}`)
 				})
 
 				popup.on('open', () => {
@@ -83,6 +86,7 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 						center: [ restaurant.location.lng, restaurant.location.lat ],
 						zoom: MAP_ZOOM_LEVEL_MAX
 					})
+					history.push(`/${restaurantNameToURLPath(restaurant)}`)
 				})
 			})
 		}
