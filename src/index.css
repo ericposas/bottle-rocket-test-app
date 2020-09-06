@@ -28,3 +28,16 @@ code {
 .mapbox-popup-minor {
 	z-index: 0;
 }
+
+/* .slide-in {
+	animation: slide 1s ease-in;
+}
+
+@keyframes slide {
+	from: {
+		margin-left: -100vw
+	},
+	to: {
+		margin-left: 0
+	}
+} */

@@ -18,8 +18,8 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 		container: 'map',
 		style: MAP_STYLES._4,
 		center: (
-			lastRestaurantViewed && lastRestaurantViewed[0] !== null
-			? [ lastRestaurantViewed[lastRestaurantViewed.length-1].location.lng, lastRestaurantViewed[lastRestaurantViewed.length-1].location.lat ]
+			lastRestaurantViewed
+			? [ lastRestaurantViewed.location.lng, lastRestaurantViewed.location.lat ]
 			: [ lng, lat ]
 		),
 		zoom: MAP_ZOOM_LEVEL_MAX,

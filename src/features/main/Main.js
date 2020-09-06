@@ -40,7 +40,7 @@ const Main = () => {
 
 	const myRef = React.useRef(0)
 
-	let mapRef = React.useRef(null)
+	const mapRef = React.useRef(null)
 
 	const handleMapMove = currentRestaurant => {
 		if (mapRef.current) {
@@ -68,47 +68,11 @@ const Main = () => {
 				history.push('/')
 				dispatch(setViewType(LIST_VIEW))
 			} else {
-				console.log(
-					history
-				)
-				if (mapRef.current) {
-					handleMapMove(apiResultsAsObject[cleanPathname])
-					dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
-				}
+				handleMapMove(apiResultsAsObject[cleanPathname])
+				dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
 			}
 		}
 	}, [view, currentRestaurant, apiResults, dispatch])
-
-	// useEffect(() => {
-	//
-	// 	if (apiResults.length < 1) {
-	// 		dispatch(getFood())
-	// 	}
-	//
-	// 	// if (apiResultsAsObject && !window.onpopstate) {
-	// 		window.onpopstate = () => {
-	// 			console.log(history.location)
-	// 			let { location: { pathname } } = history
-	// 			if (pathname === '/') {
-	// 				history.push('/')
-	// 				dispatch(setViewType(LIST_VIEW))
-	// 			} else {
-	// 				console.log(
-	// 					history
-	// 				)
-	// 				if (mapRef.current) {
-	// 					console.log(
-	// 						apiResultsAsObject
-	// 						//[pathname]
-	// 					)
-	// 				}
-	// 			}
-	// 		}
-	// 	// }
-	//
-	// 	console.log(apiResultsAsObject)
-	//
-	// }, [dispatch])
 
 	useEffect(() => {
 		myRef.current += 1
@@ -136,22 +100,23 @@ const Main = () => {
 			</AnimatePresence>
 			<AnimatePresence>
 			{
-
 				<motion.div
 				initial={{ x: '-100vw' }}
-				animate={{ x: 0 }}
-				transition={{ duration: .5 }}
-				exit={{ x: '-100vw' }}
+				animate={{
+					x:
+					view === DETAIL_VIEW ? 0
+					: view === LIST_VIEW ? '-100vw' : 0
+				}}
+				transition={{ duration: .75 }}
 				>
-				<div style={{ top: '-100vh', position: 'absolute', display: currentRestaurant && view === DETAIL_VIEW ? 'block' : 'none' }}>
-					<div style={{ marginTop: TITLE_STRIP_HEIGHT }}>
-					<DetailView currentRestaurant={currentRestaurant}>
-						<MapContainer />
-					</DetailView>
+					<div style={{ top: '-100vh', position: 'absolute' }}>
+						<div style={{ marginTop: TITLE_STRIP_HEIGHT }}>
+						<DetailView currentRestaurant={currentRestaurant}>
+							<MapContainer />
+						</DetailView>
+						</div>
 					</div>
-				</div>
 				</motion.div>
-
 			}
 			</AnimatePresence>
 			<TitleStrip displayBackArrow={ view === DETAIL_VIEW ? true : false } />

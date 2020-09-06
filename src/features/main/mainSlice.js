@@ -11,25 +11,20 @@ export const mainSlice = createSlice({
 		apiResultsAsObject: null,
 		view: LIST_VIEW,
 		layout: null,
-		lastRestaurantViewed: [],
+		lastRestaurantViewed: null,
 		currentlySelectedRestaurant: null,
   },
   reducers: {
     setAPIresults: (state, action) => { state.apiResults = action.payload },
+		setAPIresultsAsObject: (state, action) => { state.apiResultsAsObject = action.payload },
 		setViewType: (state, action) => { state.view = action.payload },
 		setLayout: (state, action) => { state.layout = action.payload },
 		setCurrentlySelectedRestaurant: (state, action) => { state.currentlySelectedRestaurant = action.payload },
-		setLastRestaurantViewed: (state, action) => {
-			state.lastRestaurantViewed.push(action.payload)
-		},
-		goBackOneLastRestaurant: (state, action) => {
-			state.lastRestaurantViewed.pop()
-		},
-		setAPIresultsAsObject: (state, action) => { state.apiResultsAsObject = action.payload }
+		setLastRestaurantViewed: (state, action) => { state.lastRestaurantViewed = action.payload },
   },
 });
 
-export const { setAPIresults, setAPIresultsAsObject, setViewType, setLayout, setCurrentlySelectedRestaurant, setLastRestaurantViewed, goBackOneLastRestaurant } = mainSlice.actions
+export const { setAPIresults, setAPIresultsAsObject, setViewType, setLayout, setCurrentlySelectedRestaurant, setLastRestaurantViewed } = mainSlice.actions
 
 export const getFood = () => dispatch => {
 	axios
@@ -37,7 +32,6 @@ export const getFood = () => dispatch => {
 	.then(result => {
 		let _result = Object.assign({}, result)
 		let { data: { restaurants } } = _result
-		// let pathnames = []
 		let apiAsObj = {}
 		restaurants.forEach(restaurant => {
 			let pathname = restaurantNameToURLPath(restaurant)

@@ -237,7 +237,6 @@ export const Restaurant = ({ restaurant, layout, handleMapMove }) => {
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 
 	const handleSelectItem = e => {
-		dispatch(setLastRestaurantViewed(currentRestaurant))
 		handleMapMove(restaurant)
 		dispatch(setCurrentlySelectedRestaurant(restaurant))
 		dispatch(setViewType(DETAIL_VIEW))
