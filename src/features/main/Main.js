@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { getFood, setViewType, setCurrentlySelectedRestaurant, goBackOneLastRestaurant } from './mainSlice'
+import { getFood, setAPIresults, setViewType, setCurrentlySelectedRestaurant, goBackOneLastRestaurant } from './mainSlice'
 import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW, LIST_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
 import View from '../components/View'
@@ -69,12 +69,19 @@ const Main = () => {
 
 		dispatch(getFood())
 
+		console.log(
+			apiResults
+		)
+
 		window.onpopstate = () => {
 			console.log(history.location)
 			if (history.location.pathname === '/') {
 				history.push('/')
 				dispatch(setViewType(LIST_VIEW))
 			} else {
+				console.log(
+					history
+				)
 				if (mapRef.current) {
 					dispatch(goBackOneLastRestaurant())
 					let lastRestaurant = lastRestaurantViewed[lastRestaurantViewed.length-1]
