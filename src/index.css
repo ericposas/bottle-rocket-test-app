@@ -5,7 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-	/* background-color: #000; */
 }
 
 code {
@@ -28,16 +27,3 @@ code {
 .mapbox-popup-minor {
 	z-index: 0;
 }
-
-/* .slide-in {
-	animation: slide 1s ease-in;
-}
-
-@keyframes slide {
-	from: {
-		margin-left: -100vw
-	},
-	to: {
-		margin-left: 0
-	}
-} */
