@@ -32,6 +32,8 @@ const Main = () => {
 
 	const apiResults = useSelector(state => state.main.apiResults)
 
+	const apiResultsAsObject = useSelector(state => state.main.apiResultsAsObject)
+
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 
 	const lastRestaurantViewed = useSelector(state => state.main.lastRestaurantViewed)
@@ -39,9 +41,6 @@ const Main = () => {
 	const myRef = React.useRef(0)
 
 	let mapRef = React.useRef(null)
-	//  = React.useRef(
-	// 	setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
-	// )
 
 	const handleMapMove = currentRestaurant => {
 		if (mapRef.current) {
@@ -52,30 +51,20 @@ const Main = () => {
 	}
 
 	useEffect(() => {
+		if (apiResults.length < 1) {
+			dispatch(getFood())
+		}
 		if (mapRef.current === null) {
 			if (currentRestaurant) {
 				mapRef.current = setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
-				console.log(
-					mapRef.current
-				)
+				console.log(mapRef.current)
 			}
 		}
-		// if (view === DETAIL_VIEW) {
-		// 	setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
-		// }
-	}, [view, currentRestaurant, apiResults, dispatch])
-
-	useEffect(() => {
-
-		dispatch(getFood())
-
-		console.log(
-			apiResults
-		)
-
 		window.onpopstate = () => {
 			console.log(history.location)
-			if (history.location.pathname === '/') {
+			let { location: { pathname } } = history
+			let cleanPathname = pathname.replace(/\//g, '')
+			if (pathname === '/') {
 				history.push('/')
 				dispatch(setViewType(LIST_VIEW))
 			} else {
@@ -83,14 +72,43 @@ const Main = () => {
 					history
 				)
 				if (mapRef.current) {
-					dispatch(goBackOneLastRestaurant())
-					let lastRestaurant = lastRestaurantViewed[lastRestaurantViewed.length-1]
-					handleMapMove(lastRestaurant)
-					dispatch(setCurrentlySelectedRestaurant(lastRestaurant))
+					handleMapMove(apiResultsAsObject[cleanPathname])
+					dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
 				}
 			}
 		}
-	}, [dispatch, lastRestaurantViewed])
+	}, [view, currentRestaurant, apiResults, dispatch])
+
+	// useEffect(() => {
+	//
+	// 	if (apiResults.length < 1) {
+	// 		dispatch(getFood())
+	// 	}
+	//
+	// 	// if (apiResultsAsObject && !window.onpopstate) {
+	// 		window.onpopstate = () => {
+	// 			console.log(history.location)
+	// 			let { location: { pathname } } = history
+	// 			if (pathname === '/') {
+	// 				history.push('/')
+	// 				dispatch(setViewType(LIST_VIEW))
+	// 			} else {
+	// 				console.log(
+	// 					history
+	// 				)
+	// 				if (mapRef.current) {
+	// 					console.log(
+	// 						apiResultsAsObject
+	// 						//[pathname]
+	// 					)
+	// 				}
+	// 			}
+	// 		}
+	// 	// }
+	//
+	// 	console.log(apiResultsAsObject)
+	//
+	// }, [dispatch])
 
 	useEffect(() => {
 		myRef.current += 1

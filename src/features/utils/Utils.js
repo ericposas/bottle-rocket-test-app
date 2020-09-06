@@ -1,3 +1,3 @@
 export const restaurantNameToURLPath = (restaurant) => {
-	return restaurant.name.split(' ').join('').toLowerCase()
+	return restaurant.name.split(' ').join('').toLowerCase().replace(/'/g, '')
 }

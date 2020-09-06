@@ -8,7 +8,7 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState: {
 		apiResults: [],
-		apiResultsAsObject: {},
+		apiResultsAsObject: null,
 		view: LIST_VIEW,
 		layout: null,
 		lastRestaurantViewed: [],
