@@ -12,16 +12,14 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 
 	mapboxgl.accessToken = accessToken
 
-	console.log(
-		lastRestaurantViewed
-	)
+	console.log(lastRestaurantViewed)
 
 	let map = new mapboxgl.Map({
 		container: 'map',
 		style: MAP_STYLES._4,
 		center: (
-			lastRestaurantViewed
-			? [ lastRestaurantViewed.location.lng, lastRestaurantViewed.location.lat ]
+			lastRestaurantViewed && lastRestaurantViewed[0] !== null
+			? [ lastRestaurantViewed[lastRestaurantViewed.length-1].location.lng, lastRestaurantViewed[lastRestaurantViewed.length-1].location.lat ]
 			: [ lng, lat ]
 		),
 		zoom: MAP_ZOOM_LEVEL_MAX,
@@ -29,82 +27,88 @@ export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, di
 		maxZoom: MAP_ZOOM_LEVEL_MAX,
 	})
 
-	map.on('load', () => {
+	let markers = []
 
-		let markers = []
-
-		function setMarkers(selectedRestaurant) {
-			apiResults.forEach(restaurant => {
-				let {
-					name: _name,
-					location: {
-						lat: _lat, lng: _lng
-					}
-				} = restaurant
-
-				let popup = new mapboxgl.Popup({ closeButton: false })
-				.setHTML(`<div class='mapbox-popup'>${_name}</div>`)
-				.addTo(map)
-
-				let popupSm = new mapboxgl.Popup({ closeButton: false })
-				.setHTML(`<div class='mapbox-popup-minor'>${_name}</div>`)
-				.addTo(map)
-
-				if (_name !== selectedRestaurant.name) {
-					let marker = new mapboxgl.Marker({ color: LIGHT_GREEN, scale: .75 })
-					.setLngLat([ _lng, _lat ])
-					.addTo(map)
-					.setPopup(popupSm)
-					marker.togglePopup()
-					markers.push(marker)
-				} else {
-					let mainMarker = new mapboxgl.Marker({ color: DARK_GREEN, scale: 1.5 })
-					.setLngLat([ _lng, _lat ])
-					.addTo(map)
-					.setPopup(popup)
-					markers.push(mainMarker)
+	function setMarkers(selectedRestaurant) {
+		apiResults.forEach(restaurant => {
+			let {
+				name: _name,
+				location: {
+					lat: _lat, lng: _lng
 				}
+			} = restaurant
 
-				popupSm.on('open', () => {
-					dispatch(setLastRestaurantViewed(selectedRestaurant))
-					dispatch(setCurrentlySelectedRestaurant(restaurant))
-					removeMarkers()
-					setMarkers(restaurant)
-					map.flyTo({
-						center: [ restaurant.location.lng, restaurant.location.lat ],
-						zoom: MAP_ZOOM_LEVEL_MAX
-					})
-					history.push(`/${restaurantNameToURLPath(restaurant)}`)
-				})
+			let popup = new mapboxgl.Popup({ closeButton: false })
+			.setHTML(`<div class='mapbox-popup'>${_name}</div>`)
+			.addTo(map)
 
-				popup.on('open', () => {
-					dispatch(setLastRestaurantViewed(selectedRestaurant))
-					dispatch(setCurrentlySelectedRestaurant(restaurant))
-					removeMarkers()
-					setMarkers(restaurant)
-					map.flyTo({
-						center: [ restaurant.location.lng, restaurant.location.lat ],
-						zoom: MAP_ZOOM_LEVEL_MAX
-					})
-					history.push(`/${restaurantNameToURLPath(restaurant)}`)
-				})
+			let popupSm = new mapboxgl.Popup({ closeButton: false })
+			.setHTML(`<div class='mapbox-popup-minor'>${_name}</div>`)
+			.addTo(map)
+
+			if (_name !== selectedRestaurant.name) {
+				let marker = new mapboxgl.Marker({ color: LIGHT_GREEN, scale: .75 })
+				.setLngLat([ _lng, _lat ])
+				.addTo(map)
+				.setPopup(popupSm)
+				marker.togglePopup()
+				markers.push(marker)
+			} else {
+				let mainMarker = new mapboxgl.Marker({ color: DARK_GREEN, scale: 1.5 })
+				.setLngLat([ _lng, _lat ])
+				.addTo(map)
+				.setPopup(popup)
+				markers.push(mainMarker)
+			}
+
+			popupSm.on('open', () => {
+				dispatch(setLastRestaurantViewed(selectedRestaurant))
+				dispatch(setCurrentlySelectedRestaurant(restaurant))
+				removeMarkers()
+				setMarkers(restaurant)
+				fly(restaurant)
+				history.push(`/${restaurantNameToURLPath(restaurant)}`)
 			})
-		}
 
-		function removeMarkers() {
-			markers.forEach(marker => {
-				console.log(marker)
-				marker.remove()
+			popup.on('open', () => {
+				dispatch(setLastRestaurantViewed(selectedRestaurant))
+				dispatch(setCurrentlySelectedRestaurant(restaurant))
+				removeMarkers()
+				setMarkers(restaurant)
+				fly(restaurant)
+				history.push(`/${restaurantNameToURLPath(restaurant)}`)
 			})
-		}
+		})
+	}
 
+	function fly(restaurant) {
+		map.flyTo({
+			center: [ restaurant.location.lng, restaurant.location.lat ],
+			zoom: MAP_ZOOM_LEVEL_MAX
+		})
+	}
+
+	function removeMarkers() {
+		markers.forEach(marker => {
+			marker.remove()
+		})
+		markers = []
+	}
+
+	map.on('load', () => {
 		setMarkers(currentRestaurant)
-
 		map.flyTo({
 			center: [ lng, lat ],
 			zoom: MAP_ZOOM_LEVEL_MAX
 		})
-
 	})
+
+	return {
+		fly,
+		removeMarkers,
+		setMarkers,
+		markers,
+		map,
+	}
 
 }

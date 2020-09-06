@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 setConfiguration({ gutterWidth: 0 })
 
-const View = ({ apiResults, layout }) => {
+const View = ({ handleMapMove, apiResults, layout }) => {
 
 	const dispatch = useDispatch()
 
@@ -48,6 +48,7 @@ const View = ({ apiResults, layout }) => {
 													}}
 													>
 													<Restaurant
+														handleMapMove={handleMapMove}
 														restaurant={restaurant}
 														layout={currentLayout}
 														/>

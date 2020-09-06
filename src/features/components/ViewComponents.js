@@ -164,46 +164,60 @@ const BoldName = styled.div`
 `
 
 const HeaderStripWithDetails = ({ currentRestaurant }) => (
-	<HeaderStrip>
-		<BoldName>
-			{ currentRestaurant.name }
-		</BoldName>
-		{ currentRestaurant.category }
-	</HeaderStrip>
+	<>
+	{
+		currentRestaurant
+		?
+			<HeaderStrip>
+				<BoldName>
+					{ currentRestaurant.name }
+				</BoldName>
+				{ currentRestaurant.category }
+			</HeaderStrip>
+		: null
+	}
+	</>
 )
 
 const ContactInfo = ({ currentRestaurant }) => (
-	<DetailBG>
-		<div>
-			<Address>
-				{
-					currentRestaurant.location.address
-				}
-				<br/>
-				{
-					`
-					${currentRestaurant.location.city},
-					${currentRestaurant.location.state}
-					${currentRestaurant.location.postalCode ? currentRestaurant.location.postalCode : ''}
-					`
-				}
-			</Address>
-			<Phone>
-				{
-					currentRestaurant && currentRestaurant.contact && currentRestaurant.contact.formattedPhone
-					? currentRestaurant.contact.formattedPhone
-					: 'No phone available'
-				}
-			</Phone>
-			<Twitter>
-				{
-					currentRestaurant && currentRestaurant.contact && currentRestaurant.contact.twitter
-					? '@' + currentRestaurant.contact.twitter
-					: 'No twitter handle available'
-				}
-			</Twitter>
-		</div>
-	</DetailBG>
+	<>
+	{
+		currentRestaurant
+		?
+			<DetailBG>
+				<div>
+					<Address>
+						{
+							currentRestaurant.location.address
+						}
+						<br/>
+						{
+							`
+							${currentRestaurant.location.city},
+							${currentRestaurant.location.state}
+							${currentRestaurant.location.postalCode ? currentRestaurant.location.postalCode : ''}
+							`
+						}
+					</Address>
+					<Phone>
+						{
+							currentRestaurant && currentRestaurant.contact && currentRestaurant.contact.formattedPhone
+							? currentRestaurant.contact.formattedPhone
+							: 'No phone available'
+						}
+					</Phone>
+					<Twitter>
+						{
+							currentRestaurant && currentRestaurant.contact && currentRestaurant.contact.twitter
+							? '@' + currentRestaurant.contact.twitter
+							: 'No twitter handle available'
+						}
+					</Twitter>
+				</div>
+			</DetailBG>
+		: null
+	}
+	</>
 )
 
 export const DetailView = ({ currentRestaurant, children }) => (
@@ -216,11 +230,15 @@ export const DetailView = ({ currentRestaurant, children }) => (
 	</DetailViewContainer>
 )
 
-export const Restaurant = ({ restaurant, layout }) => {
+export const Restaurant = ({ restaurant, layout, handleMapMove }) => {
 
 	const dispatch = useDispatch()
 
+	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
+
 	const handleSelectItem = e => {
+		dispatch(setLastRestaurantViewed(currentRestaurant))
+		handleMapMove(restaurant)
 		dispatch(setCurrentlySelectedRestaurant(restaurant))
 		dispatch(setViewType(DETAIL_VIEW))
 		history.push(`/${restaurantNameToURLPath(restaurant)}`)
