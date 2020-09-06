@@ -42,7 +42,6 @@ const Main = () => {
 		if (mapRef.current === null) {
 			if (currentRestaurant) {
 				mapRef.current = setUpMap(currentRestaurant, lastRestaurantViewed, apiResults, dispatch)
-				console.log(mapRef.current)
 			}
 		}
 		window.onpopstate = () => {
