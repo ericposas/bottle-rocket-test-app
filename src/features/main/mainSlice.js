@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { LIST_VIEW } from '../constants/constants'
-import axios from 'axios'
-import { url } from '../../api/url'
 import { restaurantNameToURLPath } from '../utils/Utils'
+import { LIST_VIEW } from '../constants/constants'
+import { createSlice } from '@reduxjs/toolkit'
+import { url } from '../../api/url'
+import { batch } from 'react-redux'
+import axios from 'axios'
 
 export const mainSlice = createSlice({
   name: 'main',
@@ -37,8 +38,10 @@ export const getFood = () => dispatch => {
 			let pathname = restaurantNameToURLPath(restaurant)
 			apiAsObj[pathname] = restaurant
 		})
-		dispatch(setAPIresultsAsObject(apiAsObj))
-		dispatch(setAPIresults(restaurants))
+		batch(() => {
+			dispatch(setAPIresultsAsObject(apiAsObj))
+			dispatch(setAPIresults(restaurants))
+		})
 	})
 }
 

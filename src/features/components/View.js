@@ -1,24 +1,11 @@
-import React, { useEffect, Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { MapIcon, TitleStrip, Restaurant, Margin, ViewContainer, MapContainer } from '../components/ViewComponents'
-import { DETAIL_VIEW, DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT } from '../constants/constants'
+import React, { Fragment } from 'react'
+import { Restaurant, Margin, ViewContainer } from '../components/ViewComponents'
+import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT } from '../constants/constants'
 import { Col, Row, setConfiguration } from 'react-grid-system'
-import { setLayout } from '../main/mainSlice'
-import { motion, AnimatePresence } from 'framer-motion'
 
 setConfiguration({ gutterWidth: 0 })
 
 const View = ({ handleMapMove, apiResults, layout }) => {
-
-	const dispatch = useDispatch()
-
-	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
-
-	const currentLayout = useSelector(state => state.main.layout)
-
-	// useEffect(() => {
-	// 	dispatch(setLayout(layout))
-	// }, [layout, dispatch, currentRestaurant])
 
 	return (
 		<>
@@ -38,22 +25,11 @@ const View = ({ handleMapMove, apiResults, layout }) => {
 								return (
 									<Fragment key={i}>
 										<Col { ...props }>
-											<AnimatePresence>
-												<motion.div
-													initial={{ y: '-50px' }}
-													animate={{ y: 0 }}
-													transition={{
-														delay: .05 * i,
-														duration: .35
-													}}
-													>
-													<Restaurant
-														handleMapMove={handleMapMove}
-														restaurant={restaurant}
-														layout={layout}
-														/>
-												</motion.div>
-											</AnimatePresence>
+											<Restaurant
+											handleMapMove={handleMapMove}
+											restaurant={restaurant}
+											layout={layout}
+											/>
 										</Col>
 									</Fragment>
 								)

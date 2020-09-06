@@ -9,7 +9,7 @@ import history from 'history/browser'
 
 export const setUpMap = (currentRestaurant, lastRestaurantViewed, apiResults, dispatch) => {
 
-	let { name, location: { lng, lat } } = currentRestaurant
+	let { location: { lng, lat } } = currentRestaurant
 
 	mapboxgl.accessToken = accessToken
 

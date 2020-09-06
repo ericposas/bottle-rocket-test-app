@@ -83,7 +83,6 @@ const BackArrow = styled.img.attrs({ src: backArrowIcon })`
 
 export const TitleStrip = ({ displayBackArrow }) => {
 	const dispatch = useDispatch()
-	const state = useSelector(state => state.main)
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 	const handleBackArrow = () => {
 		batch(() => {
@@ -236,8 +235,6 @@ export const DetailView = ({ currentRestaurant, children }) => (
 export const Restaurant = ({ restaurant, layout, handleMapMove }) => {
 
 	const dispatch = useDispatch()
-
-	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 
 	const handleSelectItem = e => {
 		handleMapMove(restaurant)

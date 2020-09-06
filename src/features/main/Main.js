@@ -1,28 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react'
-import { useMediaQuery } from 'react-responsive'
-import { getFood, setAPIresults, setViewType, setLayout, setCurrentlySelectedRestaurant, goBackOneLastRestaurant } from './mainSlice'
-import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
+import { useDispatch, useSelector } from 'react-redux'
+import { getFood, setViewType, setCurrentlySelectedRestaurant } from './mainSlice'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW, LIST_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
+import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
 import View from '../components/View'
-import { setUpMap } from '../map/setUpMap'
+import { Desktop, Tablet, Mobile } from '../utils/Utils'
 import { motion, AnimatePresence } from 'framer-motion'
+import { setUpMap } from '../map/setUpMap'
 import history from 'history/browser'
-
-const Desktop = ({ children }) => {
-  const isDesktop = useMediaQuery({ minWidth: 992 })
-	return isDesktop ? children : null
-}
-
-const Tablet = ({ children }) => {
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
-  return isTablet ? children : null
-}
-
-const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery({ maxWidth: 767 })
-  return isMobile ? children : null
-}
 
 const Main = () => {
 
@@ -56,12 +41,11 @@ const Main = () => {
 		}
 		if (mapRef.current === null) {
 			if (currentRestaurant) {
-				mapRef.current = setUpMap(currentRestaurant, lastRestaurantViewed ? lastRestaurantViewed : null, apiResults, dispatch)
+				mapRef.current = setUpMap(currentRestaurant, lastRestaurantViewed, apiResults, dispatch)
 				console.log(mapRef.current)
 			}
 		}
 		window.onpopstate = () => {
-			console.log(history.location)
 			let { location: { pathname } } = history
 			let cleanPathname = pathname.replace(/\//g, '')
 			if (pathname === '/') {
@@ -72,7 +56,7 @@ const Main = () => {
 				dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
 			}
 		}
-	}, [view, currentRestaurant, apiResults, dispatch])
+	}, [view, currentRestaurant, lastRestaurantViewed, apiResults, apiResultsAsObject, dispatch])
 
 	useEffect(() => {
 		myRef.current += 1
