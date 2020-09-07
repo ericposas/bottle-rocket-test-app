@@ -13,7 +13,7 @@ import history from 'history/browser'
 
 const checkLayoutForMapHeight = ({ layout }) => (
 	layout === DESKTOP_LAYOUT ? 'height: 550px;'
-	: layout === TABLET_LAYOUT ? 'height: 400px;' : 'height: 250px;'
+	: layout === TABLET_LAYOUT ? 'height: 400px;' : 'height: 180px;'
 )
 
 export const MapContainer = styled.div.attrs({ id: 'map' })`
