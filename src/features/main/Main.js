@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useDispatch, useSelector, batch } from 'react-redux'
-import { getFood, setViewType, setCurrentlySelectedRestaurant } from './mainSlice'
+import { getFood, setViewType, setCurrentlySelectedRestaurant, setLayout } from './mainSlice'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW, LIST_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
 import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
 import View from '../components/View'
@@ -83,6 +83,16 @@ const Main = () => {
 		console.log(myRef, mapRef)
 	})
 
+	useEffect(() => {
+		if (isDesktop) {
+			dispatch(setLayout(DESKTOP_LAYOUT))
+		} else if (isTablet) {
+			dispatch(setLayout(TABLET_LAYOUT))
+		} else if (isMobile) {
+			dispatch(setLayout(MOBILE_LAYOUT))
+		}
+	}, [isDesktop, isTablet, isMobile])
+
 	return (
 		<>
 			<AnimatePresence>
@@ -92,12 +102,8 @@ const Main = () => {
 				transition={{ duration: 1 }}
 				>
 					{
-						isDesktop
-						? <View handleMapMove={handleMapMove} layout={DESKTOP_LAYOUT} apiResults={apiResults} />
-						:	isTablet
-						? <View handleMapMove={handleMapMove} layout={TABLET_LAYOUT} apiResults={apiResults} />
-						: isMobile
-						? <View handleMapMove={handleMapMove} layout={MOBILE_LAYOUT} apiResults={apiResults} />
+						currentLayout
+						? <View handleMapMove={handleMapMove} layout={currentLayout} apiResults={apiResults} />
 						: null
 					}
 				</motion.div>
@@ -108,17 +114,16 @@ const Main = () => {
 				initial={{ x: '-100vw' }}
 				animate={{
 					x:
-					view === DETAIL_VIEW ? 0
-					: view === LIST_VIEW ? '-100vw' : 0
+					view === DETAIL_VIEW
+					? 0 : view === LIST_VIEW
+					? '-100vw' : 0
 				}}
 				transition={{ duration: .75 }}
 				>
 					<div style={{ top: '-100vh', position: 'absolute' }}>
 						<div style={{ marginTop: TITLE_STRIP_HEIGHT }}>
-						<DetailView
-						currentRestaurant={currentRestaurant}
-						>
-							<MapContainer height={350} />
+						<DetailView currentRestaurant={currentRestaurant}>
+							<MapContainer layout={currentLayout} />
 						</DetailView>
 						</div>
 					</div>

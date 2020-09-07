@@ -11,9 +11,17 @@ import { restaurantNameToURLPath } from '../utils/Utils'
 import styled from 'styled-components'
 import history from 'history/browser'
 
+const checkLayoutForMapHeight = ({ layout }) => (
+	layout === DESKTOP_LAYOUT
+	? 'height: 550px;' :
+	layout === TABLET_LAYOUT
+	? 'height: 400px;' : 'height: 250px;'
+)
+
 export const MapContainer = styled.div.attrs({ id: 'map' })`
 	width: 100vw;
-	${({ height }) => height ? `height: ${height}px;` : `height: 400px;` })}
+	overflow: hidden;
+	${checkLayoutForMapHeight}
 `
 
 export const DetailView = ({ currentRestaurant, children }) => (

@@ -17,13 +17,12 @@ code {
 	overflow: hidden;
 }
 
-.mapboxgl-popup-content,
-.mapbox-popup {
-	z-index: 1;
-	color: #34B379;
-	font-weight: bold;
+#map {
+	overflow: hidden;
 }
 
-.mapbox-popup-minor {
-	z-index: 0;
+.mapboxgl-popup-content,
+.mapbox-popup {
+	color: #34B379;
+	font-weight: bold;
 }
