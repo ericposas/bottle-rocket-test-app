@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { getFood, setViewType, setCurrentlySelectedRestaurant } from './mainSlice'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW, LIST_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
@@ -11,6 +12,12 @@ import history from 'history/browser'
 
 const Main = () => {
 
+	const isDesktop = useMediaQuery({ minWidth: 992 })
+
+	const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
+
+	const isMobile = useMediaQuery({ maxWidth: 767 })
+
 	const dispatch = useDispatch()
 
 	const view = useSelector(state => state.main.view)
@@ -22,6 +29,8 @@ const Main = () => {
 	const currentRestaurant = useSelector(state => state.main.currentlySelectedRestaurant)
 
 	const lastRestaurantViewed = useSelector(state => state.main.lastRestaurantViewed)
+
+	const currentLayout = useSelector(state => state.main.layout)
 
 	const myRef = React.useRef(0)
 
@@ -82,15 +91,15 @@ const Main = () => {
 				animate={{ opacity: 1 }}
 				transition={{ duration: 1 }}
 				>
-					<Desktop>
-						<View handleMapMove={handleMapMove} layout={DESKTOP_LAYOUT} apiResults={apiResults} />
-					</Desktop>
-					<Tablet>
-						<View handleMapMove={handleMapMove} layout={TABLET_LAYOUT} apiResults={apiResults} />
-					</Tablet>
-					<Mobile>
-						<View handleMapMove={handleMapMove} layout={MOBILE_LAYOUT} apiResults={apiResults} />
-					</Mobile>
+					{
+						isDesktop
+						? <View handleMapMove={handleMapMove} layout={DESKTOP_LAYOUT} apiResults={apiResults} />
+						:	isTablet
+						? <View handleMapMove={handleMapMove} layout={TABLET_LAYOUT} apiResults={apiResults} />
+						: isMobile
+						? <View handleMapMove={handleMapMove} layout={MOBILE_LAYOUT} apiResults={apiResults} />
+						: null
+					}
 				</motion.div>
 			</AnimatePresence>
 			<AnimatePresence>
@@ -106,8 +115,10 @@ const Main = () => {
 				>
 					<div style={{ top: '-100vh', position: 'absolute' }}>
 						<div style={{ marginTop: TITLE_STRIP_HEIGHT }}>
-						<DetailView currentRestaurant={currentRestaurant}>
-							<MapContainer />
+						<DetailView
+						currentRestaurant={currentRestaurant}
+						>
+							<MapContainer height={350} />
 						</DetailView>
 						</div>
 					</div>

@@ -13,9 +13,57 @@ import history from 'history/browser'
 
 export const MapContainer = styled.div.attrs({ id: 'map' })`
 	width: 100vw;
-	height: 400px;
+	${({ height }) => height ? `height: ${height}px;` : `height: 400px;` })}
 `
 
+export const DetailView = ({ currentRestaurant, children }) => (
+	<DetailViewContainer>
+		{children}
+		<HeaderStripWithDetails currentRestaurant={currentRestaurant} />
+		<>
+			<ContactInfo currentRestaurant={currentRestaurant} />
+		</>
+	</DetailViewContainer>
+)
+
+export const DetailViewContainer = styled.div`
+	background-color: #fff;
+	overflow: hidden;
+	position: fixed;
+`
+
+const HeaderStripWithDetails = ({ currentRestaurant }) => (
+	<>
+	{
+		currentRestaurant
+		?
+			<HeaderStrip>
+				<BoldName>
+					{ currentRestaurant.name }
+				</BoldName>
+				{ currentRestaurant.category }
+			</HeaderStrip>
+		: null
+	}
+	</>
+)
+
+export const HeaderStrip = ({ children }) => (
+	<StyledHeaderStrip>
+		<div style={{ padding: '8px 0 0 0', margin: '0 0 0 12px' }}>
+			{children}
+		</div>
+	</StyledHeaderStrip>
+)
+
+export const StyledHeaderStrip = styled.div`
+	color: #fff;
+	width: 100vw;
+	height: 60px;
+	font-size: 17px;
+	background-color: ${DARK_GREEN};
+	font-family: Avenir Next Demi Bold, Arial;
+`
 export const Margin = styled.div`
 	width: 100vw;
 	height: ${TITLE_STRIP_HEIGHT};
@@ -26,23 +74,6 @@ export const ViewContainer = styled.div`
 	overflow-y: scroll;
 	height: 100vh;
 `
-
-export const StyledHeaderStrip = styled.div`
-	color: #fff;
-	width: 100vw;
-	height: 60px;
-	font-size: 17px;
-	background-color: ${DARK_GREEN};
-	font-family: Avenir Next Demi Bold, Arial;
-`
-
-export const HeaderStrip = ({ children }) => (
-	<StyledHeaderStrip>
-		<div style={{ padding: '8px 0 0 0', margin: '0 0 0 12px' }}>
-			{children}
-		</div>
-	</StyledHeaderStrip>
-)
 
 const checkLayout = ({ layout }) => (
 	layout === TABLET_LAYOUT
@@ -136,12 +167,6 @@ export const RestaurantGradient = styled.img.attrs({ draggable: false })`
 	${checkLayout}
 `
 
-export const DetailViewContainer = styled.div`
-	background-color: #fff;
-	overflow: hidden;
-	position: fixed;
-`
-
 export const DetailBG = styled.div`
 	background-color: #fff;
 	overflow: hidden;
@@ -164,22 +189,6 @@ const BoldName = styled.div`
 	font-weight: bold;
 	font-size: 20px;
 `
-
-const HeaderStripWithDetails = ({ currentRestaurant }) => (
-	<>
-	{
-		currentRestaurant
-		?
-			<HeaderStrip>
-				<BoldName>
-					{ currentRestaurant.name }
-				</BoldName>
-				{ currentRestaurant.category }
-			</HeaderStrip>
-		: null
-	}
-	</>
-)
 
 const ContactInfo = ({ currentRestaurant }) => (
 	<>
@@ -220,16 +229,6 @@ const ContactInfo = ({ currentRestaurant }) => (
 		: null
 	}
 	</>
-)
-
-export const DetailView = ({ currentRestaurant, children }) => (
-	<DetailViewContainer>
-		{children}
-		<HeaderStripWithDetails currentRestaurant={currentRestaurant} />
-		<>
-			<ContactInfo currentRestaurant={currentRestaurant} />
-		</>
-	</DetailViewContainer>
 )
 
 export const Restaurant = ({ restaurant, layout, handleMapMove }) => {
