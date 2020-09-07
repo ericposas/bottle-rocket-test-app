@@ -36,6 +36,16 @@ const Main = () => {
 	}
 
 	useEffect(() => {
+		let { location: { pathname } } = history
+		let cleanPathname = pathname.replace(/\//g, '')
+		if (pathname !== '/' && apiResultsAsObject !== null) {
+			dispatch(setViewType(DETAIL_VIEW))
+			handleMapMove(apiResultsAsObject[cleanPathname])
+			dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
+		}
+	}, [mapRef, apiResultsAsObject])
+
+	useEffect(() => {
 		if (apiResults.length < 1) {
 			dispatch(getFood())
 		}
