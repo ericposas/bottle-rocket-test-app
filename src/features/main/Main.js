@@ -111,21 +111,16 @@ const Main = () => {
 			<AnimatePresence>
 			{
 				<motion.div
-				initial={{ x: '-100vw' }}
-				animate={{
-					x:
-					view === DETAIL_VIEW
-					? 0 : view === LIST_VIEW
-					? '-100vw' : 0
-				}}
+				animate={{ x: view === DETAIL_VIEW ? 0 : '-100vw' }}
 				transition={{ duration: .75 }}
 				>
-					<div style={{ top: '-100vh', position: 'absolute' }}>
-						<div style={{ marginTop: TITLE_STRIP_HEIGHT }}>
-						<DetailView currentRestaurant={currentRestaurant}>
-							<MapContainer layout={currentLayout} />
-						</DetailView>
-						</div>
+					<div style={{
+						top: `calc(-100vh + ${TITLE_STRIP_HEIGHT})`,
+						position: 'absolute',
+						overflow: 'hidden'
+					}}>
+						<MapContainer layout={currentLayout} />
+						<DetailView layout={currentLayout} currentRestaurant={currentRestaurant}/>
 					</div>
 				</motion.div>
 			}

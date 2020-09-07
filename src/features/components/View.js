@@ -1,6 +1,4 @@
 import React, { Fragment, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { setLayout } from '../main/mainSlice'
 import { Restaurant, Margin, ViewContainer } from '../components/ViewComponents'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT } from '../constants/constants'
 import { Col, Row, setConfiguration } from 'react-grid-system'
@@ -8,13 +6,6 @@ import { Col, Row, setConfiguration } from 'react-grid-system'
 setConfiguration({ gutterWidth: 0 })
 
 const View = ({ handleMapMove, apiResults, layout }) => {
-
-	const dispatch = useDispatch()
-
-	useEffect(() => {
-		dispatch(setLayout(layout))
-		console.log('..updating layout')
-	})
 
 	return (
 		<>

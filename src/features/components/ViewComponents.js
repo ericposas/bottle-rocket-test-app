@@ -12,29 +12,23 @@ import styled from 'styled-components'
 import history from 'history/browser'
 
 const checkLayoutForMapHeight = ({ layout }) => (
-	layout === DESKTOP_LAYOUT
-	? 'height: 550px;' :
-	layout === TABLET_LAYOUT
-	? 'height: 400px;' : 'height: 250px;'
+	layout === DESKTOP_LAYOUT ? 'height: 550px;'
+	: layout === TABLET_LAYOUT ? 'height: 400px;' : 'height: 250px;'
 )
 
 export const MapContainer = styled.div.attrs({ id: 'map' })`
 	width: 100vw;
-	overflow: hidden;
 	${checkLayoutForMapHeight}
 `
 
-export const DetailView = ({ currentRestaurant, children }) => (
+export const DetailView = ({ currentRestaurant, layout }) => (
 	<DetailViewContainer>
-		{children}
 		<HeaderStripWithDetails currentRestaurant={currentRestaurant} />
-		<>
-			<ContactInfo currentRestaurant={currentRestaurant} />
-		</>
+		<ContactInfo currentRestaurant={currentRestaurant} />
 	</DetailViewContainer>
 )
 
-export const DetailViewContainer = styled.div`
+export const DetailViewContainer = styled.div.attrs({ id: 'detail-view-container' })`
 	background-color: #fff;
 	overflow: hidden;
 	position: fixed;

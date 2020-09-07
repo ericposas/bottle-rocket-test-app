@@ -17,10 +17,6 @@ code {
 	overflow: hidden;
 }
 
-#map {
-	overflow: hidden;
-}
-
 .mapboxgl-popup-content,
 .mapbox-popup {
 	color: #34B379;
