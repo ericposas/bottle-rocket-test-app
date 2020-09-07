@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { getFood, setViewType, setCurrentlySelectedRestaurant } from './mainSlice'
 import { DESKTOP_LAYOUT, TABLET_LAYOUT, MOBILE_LAYOUT, DETAIL_VIEW, LIST_VIEW, TITLE_STRIP_HEIGHT } from '../constants/constants'
 import { DetailView, MapContainer, TitleStrip, MapIcon } from '../components/ViewComponents'
@@ -39,11 +39,13 @@ const Main = () => {
 		let { location: { pathname } } = history
 		let cleanPathname = pathname.replace(/\//g, '')
 		if (pathname !== '/' && apiResultsAsObject !== null) {
-			dispatch(setViewType(DETAIL_VIEW))
 			handleMapMove(apiResultsAsObject[cleanPathname])
-			dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
+			batch(() => {
+				dispatch(setViewType(DETAIL_VIEW))
+				dispatch(setCurrentlySelectedRestaurant(apiResultsAsObject[cleanPathname]))
+			})
 		}
-	}, [mapRef, apiResultsAsObject])
+	}, [mapRef, apiResultsAsObject, dispatch])
 
 	useEffect(() => {
 		if (apiResults.length < 1) {
